@@ -17,32 +17,35 @@ export default {
 
 <template>
   <div
-  @click="store.selectElement(index)"
+    @click="store.selectElement(index)"
     class="element"
     :class="{ 'element--selected': selected }"
     :style="element.style"
-  >
-    <div class="element__name">{{ element.name }}</div>
-  </div>
+  ></div>
 </template>
 
 <style scoped>
 .element {
-  display: grid;
+  min-width: 64px;
+  min-height: 64px;
   cursor: pointer;
-  transition: filter .15s ease-in-out;
+  transition: filter 0.15s ease-in-out;
+  background: #ccc;
 }
 .element--selected {
   border: 2px dashed #000;
 }
 .element:hover:not(.element--selected) {
-    border: 2px dashed #555;
-    filter:brightness(.9);
+  border: 2px dashed #555;
+  filter: brightness(0.9);
 }
 .element__name {
+  position: absolute;
   place-self: center;
   background: #eee;
   padding: 0.25em;
   border-radius: 5px;
+  bottom: 0.25em;
+  margin: 0 auto;
 }
 </style>
