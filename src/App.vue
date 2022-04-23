@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Canvas from './components/Canvas.vue'
 import ControlPanel from './components/ControlPanel.vue'
+import Timeline from './components/Timeline.vue'
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import ControlPanel from './components/ControlPanel.vue'
 
   <main>
     <Canvas />
+    <Timeline />
   </main>
 </template>
 
@@ -17,15 +19,19 @@ import ControlPanel from './components/ControlPanel.vue'
 @import './assets/base.css';
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
+  width: 100%;
+  height: 100vh;
   font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
 header {
   line-height: 1.5;
+}
+
+main {
+  width: 100%;
 }
 
 .logo {
@@ -52,12 +58,6 @@ a,
     place-items: center;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
   header {
     display: flex;
     place-items: center;
@@ -75,6 +75,11 @@ a,
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
+  }
+  
+  main {
+    width: 100%;
+    padding-left: 360px;
   }
 
   .logo {
