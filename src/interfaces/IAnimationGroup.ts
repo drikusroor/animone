@@ -1,6 +1,6 @@
 import type { IAnimation } from "./IAnimation";
 
 export interface IAnimationGroup {
-    ref: String;
+    ref: string;
     animations: IAnimation[];
 }

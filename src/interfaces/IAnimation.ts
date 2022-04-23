@@ -1,6 +1,6 @@
 import type { IAnimationStep } from "./IAnimationStep";
 
 export interface IAnimation {
-    name: String;
+    name: string;
     steps: IAnimationStep[];
 }

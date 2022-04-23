@@ -1,6 +1,27 @@
 import type { IElement } from "@/interfaces/IElement";
 import { defineStore } from "pinia";
 
+export function camelize(s: string) {
+  return s.replace(/-./g, (x) => x[1].toUpperCase());
+}
+
+export function stringifyStyle(style: { [key: string]: string }) {
+  return Object.keys(style)
+    .map((key) => {
+      return `${key}: ${style[key]};`;
+    })
+    .join("\n");
+}
+
+export function parseStyleString(styleString: string): {
+  [key: string]: string;
+} {
+  return styleString.split(/;/).reduce((style, line) => {
+    const [key, value] = line.split(":").map((v) => v.trim());
+    return { ...style, [camelize(key)]: value };
+  }, {});
+}
+
 export const useElementStore = defineStore({
   id: "elements",
   state: () => ({
@@ -8,13 +29,26 @@ export const useElementStore = defineStore({
     selected: -1,
   }),
   getters: {
-    element: (state) => state.selected > -1 ?? state.elements[state.selected],
+    selectedElement: (state) => {
+      if (state.selected > -1) {
+        return state.elements[state.selected];
+      }
+    },
   },
   actions: {
     createElement(element: IElement) {
-      this.elements = [...this.elements, element];
+      const name = "New element";
+      const style = {
+        background: "deepskyblue",
+        width: "128px",
+        height: "128px",
+        padding: "0.5em",
+      };
+      const styleString = stringifyStyle(style);
+      this.elements = [...this.elements, { name, style, styleString }];
     },
     updateElement(element: IElement, index: number) {
+      element.style = parseStyleString(element.styleString);
       this.elements[index] = element;
     },
     selectElement(index: number) {

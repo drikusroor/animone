@@ -1,5 +1,5 @@
 export interface IElement {
-    ref: String;
-    name: String;
-    style: String;
+  name: string;
+  style: { [key: string]: string };
+  styleString: string;
 }
