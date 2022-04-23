@@ -33,6 +33,7 @@ export default {
 <style scoped>
 .element {
   display: grid;
+  cursor: pointer;
 }
 .element--selected {
   border: 2px dashed #000;
