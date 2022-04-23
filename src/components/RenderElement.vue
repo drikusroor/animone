@@ -5,11 +5,6 @@ export default {
   props: ["element", "index"],
   computed: {
     selected() {
-      console.log(
-        this.store.selected === this.selected,
-        this.store.selected,
-        this.index
-      );
       return this.store.selected === this.index;
     },
   },
@@ -22,6 +17,7 @@ export default {
 
 <template>
   <div
+  @click="store.selectElement(index)"
     class="element"
     :class="{ 'element--selected': selected }"
     :style="element.style"
@@ -34,12 +30,14 @@ export default {
 .element {
   display: grid;
   cursor: pointer;
+  transition: filter .15s ease-in-out;
 }
 .element--selected {
   border: 2px dashed #000;
 }
 .element:hover:not(.element--selected) {
     border: 2px dashed #555;
+    filter:brightness(.9);
 }
 .element__name {
   place-self: center;
