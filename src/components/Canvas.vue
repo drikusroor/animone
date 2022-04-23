@@ -18,9 +18,10 @@ export default {
 <template>
   <div class="canvas">
     <RenderElement
-      v-for="element in store.elements"
+      v-for="(element, index) in store.elements"
       :key="element.name"
       :element="element"
+      :index="index"
     />
   </div>
 </template>
