@@ -37,6 +37,9 @@ export default {
 .element--selected {
   border: 2px dashed #000;
 }
+.element:hover:not(.element--selected) {
+    border: 2px dashed #555;
+}
 .element__name {
   place-self: center;
   background: #eee;
