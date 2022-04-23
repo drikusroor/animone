@@ -60,8 +60,6 @@ a,
 
   header {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
     position: fixed;
     left: 0;
     top: 0;
@@ -78,8 +76,8 @@ a,
   }
   
   main {
-    width: 100%;
-    padding-left: 360px;
+    width: calc(100% - 360px);
+    margin-left: 360px;
   }
 
   .logo {

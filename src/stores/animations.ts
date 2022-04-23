@@ -4,7 +4,7 @@ import type { IAnimationGroup } from '@/interfaces/IAnimationGroup'
 import type { IAnimationStep } from '@/interfaces/IAnimationStep'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore({
+export const useAnimationStore = defineStore({
   id: 'animations',
   state: () => ({
     animationsGroups: [] as IAnimationGroup[]
