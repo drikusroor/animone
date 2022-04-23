@@ -12,16 +12,16 @@ export const useCounterStore = defineStore({
   getters: {
   },
   actions: {
-    updateAnimationGroup(groupIndex: Number, updatedGroup: IAnimationGroup) {
+    updateAnimationGroup(group: IAnimationGroup, groupIndex: Number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimation(groupIndex: Number, animationIndex: Number, updatedAnimation: IAnimation) {
+    updateAnimation(animation: IAnimation, groupIndex: Number, animationIndex: Number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimationStep(groupIndex: Number, animationIndex: Number, stepIndex: Number, updatedAnimationStep: IAnimationStep) {
+    updateAnimationStep(animationStep: IAnimationStep, groupIndex: Number, animationIndex: Number, stepIndex: Number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimationEntry(groupIndex: Number, animationIndex: Number, stepIndex: Number, entryIndex: Number, updatedAnimationEntry: IAnimationEntry) {
+    updateAnimationEntry(animationEntry: IAnimationEntry, groupIndex: Number, animationIndex: Number, stepIndex: Number, entryIndex: Number) {
       throw new Error('Not yet implemented')
     },
   }
