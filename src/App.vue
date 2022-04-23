@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Canvas from './components/Canvas.vue'
+import ControlPanel from './components/ControlPanel.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    <ControlPanel />
   </header>
 
   <main>
-    <TheWelcome />
+    <Canvas />
   </main>
 </template>
 
@@ -66,6 +62,13 @@ a,
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 360px;
+    height: 100vh;
+    box-shadow: 5px 0px 15px 0px rgba(0, 0, 0, .1);
   }
 
   header .wrapper {
