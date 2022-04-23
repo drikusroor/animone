@@ -1,8 +1,6 @@
 <script lang="ts">
 export default {
   props: ["element"],
-  mounted() {
-  },
 };
 </script>
 

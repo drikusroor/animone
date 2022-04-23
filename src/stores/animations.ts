@@ -12,16 +12,16 @@ export const useAnimationStore = defineStore({
   getters: {
   },
   actions: {
-    updateAnimationGroup(group: IAnimationGroup, groupIndex: Number) {
+    updateAnimationGroup(group: IAnimationGroup, groupIndex: number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimation(animation: IAnimation, groupIndex: Number, animationIndex: Number) {
+    updateAnimation(animation: IAnimation, groupIndex: number, animationIndex: number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimationStep(animationStep: IAnimationStep, groupIndex: Number, animationIndex: Number, stepIndex: Number) {
+    updateAnimationStep(animationStep: IAnimationStep, groupIndex: number, animationIndex: number, stepIndex: number) {
       throw new Error('Not yet implemented')
     },
-    updateAnimationEntry(animationEntry: IAnimationEntry, groupIndex: Number, animationIndex: Number, stepIndex: Number, entryIndex: Number) {
+    updateAnimationEntry(animationEntry: IAnimationEntry, groupIndex: number, animationIndex: number, stepIndex: number, entryIndex: number) {
       throw new Error('Not yet implemented')
     },
   }
