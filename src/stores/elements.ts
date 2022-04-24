@@ -27,6 +27,7 @@ export const useElementStore = defineStore({
   state: () => ({
     elements: [] as IElement[],
     selected: -1,
+    counter: 0,
   }),
   getters: {
     selectedElement: (state) => {
@@ -37,6 +38,8 @@ export const useElementStore = defineStore({
   },
   actions: {
     createElement(element: IElement) {
+      const id = this.counter;
+      this.counter += 1;
       const name = "New element";
       const style = {
         background: "deepskyblue",
@@ -45,7 +48,7 @@ export const useElementStore = defineStore({
         padding: "0.5em",
       };
       const styleString = stringifyStyle(style);
-      this.elements = [...this.elements, { name, style, styleString }];
+      this.elements = [...this.elements, { id, name, style, styleString }];
     },
     updateElement(element: IElement, index: number) {
       element.style = parseStyleString(element.styleString);
