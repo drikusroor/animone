@@ -24,7 +24,13 @@ export default {
         v-for="(element, index) in store.elements"
         :key="index"
       >
-        <div class="timeline__element-name">
+        <div
+          @click="store.selectElement(index)"
+          class="timeline__element-name"
+          :class="{
+            'timeline__element-name--selected': index === store.selected,
+          }"
+        >
           {{ element.name }}
         </div>
         <div
@@ -65,6 +71,15 @@ export default {
   border-left: 0;
   padding: 0.25em;
   height: 32px;
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+}
+.timeline__element-name:hover {
+  background: #ccc;
+}
+.timeline__element-name--selected {
+  background: #ccc;
+  font-weight: bolder;
 }
 .timeline__keyframe {
   display: inline-block;
