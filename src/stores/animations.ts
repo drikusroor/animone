@@ -17,10 +17,19 @@ export const useAnimationStore = defineStore({
     },
   },
   actions: {
-    createAnimation(id: number, keyframe: number) {
+    createAnimation(elementId: number, keyframe: number) {
+      if (
+        this.animations.find(
+          (animation) =>
+            animation.elementId === elementId && animation.keyframe === keyframe
+        )
+      ) {
+        throw new Error("Keyframe already exists for this element!");
+      }
+
       this.animations.push({
         name: "New animation",
-        elementId: id,
+        elementId: elementId,
         steps: [],
         keyframe,
       });
