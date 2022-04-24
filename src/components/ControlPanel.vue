@@ -9,4 +9,7 @@ import ElementForm from './ElementForm.vue';
 </template>
 
 <style scoped>
+.control-panel {
+  width: 100%;
+}
 </style>

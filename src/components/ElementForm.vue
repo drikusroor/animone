@@ -62,8 +62,8 @@ export default {
     <button @click="createElement()">New element</button>
     <hr />
     <h2>Elements</h2>
-    <div class="element-form__list">
-      <div
+    <ul class="element-form__list">
+      <li
         class="element-form__item"
         :class="{ 'element-form__item--selected': index === store.selected }"
         v-for="(element, index) in store.elements"
@@ -71,8 +71,8 @@ export default {
         @click="store.selectElement(index)"
       >
         {{ element.name }}
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -81,6 +81,8 @@ export default {
   padding: 0.5em;
 }
 .element-form__list {
+  list-style: none;
+  padding-left: 0;
 }
 .element-form__item {
   padding: 0.5em;
