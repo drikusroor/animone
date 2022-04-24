@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     onChangeStyle() {
-      this.store.updateElement(this.store.selectedElement, this.index)
+      this.store.updateElement(this.store.selectedElement, this.index);
     },
     createElement() {
       this.store.createElement();
@@ -41,8 +41,9 @@ export default {
 
 <template>
   <div class="element-form">
-    <h2>Add new element</h2>
+    <h2>Elements</h2>
     <form v-if="!!selectedElement" @submit="(e) => updateElement(e, store)">
+      <h3>Edit {{ selectedElement.name }}</h3>
       <input
         v-model="selectedElement.name"
         type="text"
@@ -56,9 +57,21 @@ export default {
         @input="(e) => onChangeStyle(selectedElement.styleString)"
       />
     </form>
-    <button @click="createElement(store)">New element</button>
-    <div v-for="element in store.elements" :key="element.name">
-      {{ element.name }}
+    <hr />
+    <h3>Create new element</h3>
+    <button @click="createElement()">New element</button>
+    <hr />
+    <h2>Elements</h2>
+    <div class="element-form__list">
+      <div
+        class="element-form__item"
+        :class="{ 'element-form__item--selected': index === store.selected }"
+        v-for="(element, index) in store.elements"
+        :key="element.name"
+        @click="store.selectElement(index)"
+      >
+        {{ element.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -66,5 +79,36 @@ export default {
 <style scoped>
 .element-form {
   padding: 0.5em;
+}
+.element-form__list {
+}
+.element-form__item {
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-bottom: 0;
+  cursor: pointer;
+  transition: background 0.15s ease-in-out;
+}
+.element-form__item:last-child {
+  border-bottom: 1px solid #ddd;
+}
+.element-form__item:hover {
+  background: #eee;
+}
+.element-form__item--selected {
+  border-left: 8px solid #ddd;
+}
+input[type="text"] {
+  width: 100%;
+}
+textarea {
+  width: 100%;
+  height: 120px;
+}
+input,
+textarea,
+hr,
+button {
+  margin: 0.5em 0;
 }
 </style>

@@ -22,14 +22,14 @@ export default {
       <div
         class="timeline__element-row"
         v-for="(element, index) in store.elements"
-        v-bind:key="index"
+        :key="index"
       >
         <div class="timeline__element-name">
           {{ element.name }}
         </div>
         <div
           v-for="(keyframe, index) in keyframes"
-          v-bind:key="index"
+          :key="index"
           class="timeline__keyframe"
         ></div>
       </div>
