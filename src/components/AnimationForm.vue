@@ -70,7 +70,7 @@ export default {
         :key="animation.name"
         @click="store.selectAnimation(index)"
       >
-        {{ animation.name }}
+        {{ animation.name }} - {{ animation.keyframe + 1 }}
       </li>
     </ul>
   </div>

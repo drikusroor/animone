@@ -17,11 +17,12 @@ export const useAnimationStore = defineStore({
     },
   },
   actions: {
-    createAnimation(id: number, _keyframe: number) {
+    createAnimation(id: number, keyframe: number) {
       this.animations.push({
         name: "New animation",
         elementId: id,
         steps: [],
+        keyframe,
       });
     },
     updateAnimation(
