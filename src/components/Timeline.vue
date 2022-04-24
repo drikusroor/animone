@@ -1,4 +1,5 @@
 <script lang="ts">
+import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 export default {
   data() {
@@ -7,28 +8,30 @@ export default {
     };
   },
   setup() {
-    const store = useElementStore();
+    const elementStore = useElementStore();
+    const animationStore = useAnimationStore();
 
     return {
-      store,
+      animationStore,
+      elementStore,
     };
   },
 };
 </script>
 
 <template>
-  <div v-if="store.elements.length > 0" class="timeline">
+  <div v-if="elementStore.elements.length > 0" class="timeline">
     <div class="timeline__inner">
       <div
         class="timeline__element-row"
-        v-for="(element, index) in store.elements"
+        v-for="(element, index) in elementStore.elements"
         :key="index"
       >
         <div
-          @click="store.selectElement(index)"
+          @click="elementStore.selectElement(index)"
           class="timeline__element-name"
           :class="{
-            'timeline__element-name--selected': index === store.selected,
+            'timeline__element-name--selected': index === elementStore.selected,
           }"
         >
           {{ element.name }}
@@ -37,6 +40,7 @@ export default {
           v-for="(keyframe, index) in keyframes"
           :key="index"
           class="timeline__keyframe"
+          @click="animationStore.createAnimation(element.id, index)"
         ></div>
       </div>
     </div>
@@ -104,6 +108,7 @@ export default {
 .timeline__keyframe--empty {
   background: #ccc;
 }
+.timeline__keyframe:hover::before,
 .timeline__keyframe--empty:hover::before {
   content: "➕";
 }
