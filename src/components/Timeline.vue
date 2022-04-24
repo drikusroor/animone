@@ -82,7 +82,9 @@ export default {
   font-weight: bolder;
 }
 .timeline__keyframe {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 0 auto;
   width: 24px;
   height: 32px;
@@ -91,6 +93,7 @@ export default {
   border-top: 0;
   border-left: 0;
   transition: filter 0.15s ease-in-out;
+  cursor: pointer;
 }
 .timeline__keyframe:hover {
   filter: brightness(0.95);
@@ -100,5 +103,8 @@ export default {
 }
 .timeline__keyframe--empty {
   background: #ccc;
+}
+.timeline__keyframe--empty:hover::before {
+  content: "➕";
 }
 </style>
