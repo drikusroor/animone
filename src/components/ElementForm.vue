@@ -42,7 +42,7 @@ export default {
 <template>
   <div class="element-form">
     <h2>Elements</h2>
-    <form v-if="!!selectedElement" @submit="(e) => updateElement(e, store)">
+    <form v-if="!!selectedElement">
       <h3>Edit {{ selectedElement.name }}</h3>
       <input
         v-model="selectedElement.name"
