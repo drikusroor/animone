@@ -41,8 +41,9 @@ export default {
       return step;
     },
     isInStep(elementId: number, index: number) {
-      const animations = this.animationStore.animations
-        .filter((animation) => animation.elementId === elementId)
+      const animations = this.animationStore.animations.filter(
+        (animation) => animation.elementId === elementId
+      );
 
       const step = animations.some((animation) => {
         return animation.steps.some((step) => {
@@ -91,22 +92,29 @@ export default {
             v-if="isStep(element.id, index)"
             class="timeline__keyframe timeline__keyframe--step"
           >
-            A{{ index + 1 }}
           </div>
           <div
             v-else-if="isInStep(element.id, index)"
             class="timeline__keyframe timeline__keyframe--in-step"
           >
-            B{{ index + 1 }}
           </div>
           <div
             v-else
             class="timeline__keyframe timeline__keyframe--empty"
             @click="createAnimation(elementIndex, index)"
           >
-            C{{ index + 1 }}
           </div>
         </template>
+      </div>
+      <div class="timeline__element-row">
+        <div class="timeline__element-name">
+          <button
+            @click="elementStore.createElement()"
+            class="timeline__element-name--create"
+          >
+            Create Element ➕
+          </button>
+        </div>
       </div>
     </div>
   </div>
