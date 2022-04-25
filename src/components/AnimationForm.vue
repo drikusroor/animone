@@ -11,11 +11,6 @@ export default {
       },
     };
   },
-  props: {
-    animation: {
-      required: false,
-    },
-  },
   computed: {
     selectedAnimation() {
       return this.store.selectedAnimation;
