@@ -1,5 +1,9 @@
 import type { IAnimationEntry } from "./IAnimationEntry";
 
 export interface IAnimationStep {
-    entries: IAnimationEntry[];
+  name: string;
+  delay: number;
+  duration: number;
+  easing: string;
+  entries: IAnimationEntry[];
 }

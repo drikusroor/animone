@@ -23,12 +23,10 @@ export const useAnimationStore = defineStore({
           return animation.steps[state.selectedStepIndex];
         }
       }
-    }
-
+    },
   },
   actions: {
     createAnimation(elementId: number, keyframe: number = 0) {
-
       // if elementId is falsy and not zero, throw an error
       if (!(elementId || elementId === 0)) {
         throw new Error("Element id is required");
@@ -50,7 +48,25 @@ export const useAnimationStore = defineStore({
         keyframe,
       });
     },
-    createAnimationStep(elementId: number, keyframe?: number) {},
+    createAnimationStep(animationIndex: number, keyframe?: number) {
+      if (animationIndex < 0) {
+        throw new Error("Animation index is required");
+      }
+
+      const animation = this.animations[animationIndex];
+
+      if (!animation) {
+        throw new Error("Animation does not exist!");
+      }
+
+      animation.steps.push({
+        name: "New step",
+        duration: 0,
+        delay: 0,
+        easing: "linear",
+        entries: [],
+      });
+    },
     updateAnimation(
       animation: IAnimation,
       groupIndex: number,
@@ -80,6 +96,6 @@ export const useAnimationStore = defineStore({
     },
     selectStep(index: number) {
       this.selectedStepIndex = index;
-    }
+    },
   },
 });
