@@ -7,14 +7,24 @@ export const useAnimationStore = defineStore({
   id: "animations",
   state: () => ({
     animations: [] as IAnimation[],
-    selected: -1,
+    selectedAnimationIndex: -1,
+    selectedStepIndex: -1,
   }),
   getters: {
     selectedAnimation: (state) => {
-      if (state.selected > -1) {
-        return state.animations[state.selected];
+      if (state.selectedAnimationIndex > -1) {
+        return state.animations[state.selectedAnimationIndex];
       }
     },
+    selectedStep: (state) => {
+      if (state.selectedAnimationIndex > -1) {
+        const animation = state.animations[state.selectedAnimationIndex];
+        if (state.selectedStepIndex > -1) {
+          return animation.steps[state.selectedStepIndex];
+        }
+      }
+    }
+
   },
   actions: {
     createAnimation(elementId: number, keyframe: number = 0) {
@@ -40,6 +50,7 @@ export const useAnimationStore = defineStore({
         keyframe,
       });
     },
+    createAnimationStep(elementId: number, keyframe?: number) {},
     updateAnimation(
       animation: IAnimation,
       groupIndex: number,
@@ -65,7 +76,10 @@ export const useAnimationStore = defineStore({
       throw new Error("Not yet implemented");
     },
     selectAnimation(index: number) {
-      this.selected = index;
+      this.selectedAnimationIndex = index;
     },
+    selectStep(index: number) {
+      this.selectedStepIndex = index;
+    }
   },
 });

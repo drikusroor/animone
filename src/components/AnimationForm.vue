@@ -45,16 +45,15 @@ export default {
         name="name"
         placeholder="Name"
       />
-      <textarea
-        v-model="selectedAnimation.styleString"
-        name="style"
-        placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
-        @input="(e) => onChangeStyle(selectedAnimation.styleString)"
-      />
+      <div v-for="(step, index) in selectedAnimation.steps" :key="index">
+        <textarea
+          v-model="selectedAnimation.styleString"
+          name="style"
+          placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
+          @input="(e) => onChangeStyle(selectedAnimation.styleString)"
+        />
+      </div>
     </form>
-    <hr />
-    <h3>Create new animation</h3>
-    <button @click="createAnimation()">New animation</button>
     <hr />
     <h2>Animations</h2>
     <ul class="animation-form__list">
