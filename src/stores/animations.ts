@@ -26,7 +26,7 @@ export const useAnimationStore = defineStore({
     },
   },
   actions: {
-    createAnimation(elementId: number, keyframe: number = 0) {
+    createAnimation(elementId: number, keyframe: number) {
       // if elementId is falsy and not zero, throw an error
       if (!(elementId || elementId === 0)) {
         throw new Error("Element id is required");
@@ -47,8 +47,10 @@ export const useAnimationStore = defineStore({
         steps: [],
         keyframe,
       });
+
+      return this.animations.length - 1;
     },
-    createAnimationStep(animationIndex: number, keyframe?: number) {
+    createAnimationStep(animationIndex: number, keyframe: number) {
       if (animationIndex < 0) {
         throw new Error("Animation index is required");
       }
@@ -61,11 +63,14 @@ export const useAnimationStore = defineStore({
 
       animation.steps.push({
         name: "New step",
-        duration: 0,
+        duration: 1,
         delay: 0,
         easing: "linear",
+        keyframe,
         entries: [],
       });
+
+      return animation.steps.length - 1;
     },
     updateAnimation(
       animation: IAnimation,

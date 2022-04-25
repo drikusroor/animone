@@ -7,6 +7,56 @@ export default {
       keyframes: Array.from(Array(100).keys()),
     };
   },
+  computed: {
+    animationStore() {
+      return useAnimationStore();
+    },
+    elementStore() {
+      return useElementStore();
+    },
+  },
+  methods: {
+    createAnimation(elementIndex, index) {
+      const animationIndex = this.animationStore.createAnimation(
+        elementIndex,
+        index
+      );
+      this.animationStore.selectAnimation(animationIndex);
+      const stepIndex = this.animationStore.createAnimationStep(
+        animationIndex,
+        0
+      );
+      this.animationStore.selectStep(stepIndex);
+    },
+    isStep(elementId: number, index: number) {
+      const animations = this.animationStore.animations.filter(
+        (animation) => animation.elementId === elementId
+      );
+
+      const step = animations.some((animation) => {
+        return animation.steps.some((step) => {
+          return animation.keyframe + step.keyframe === index;
+        });
+      });
+      return step;
+    },
+    isInStep(elementId: number, index: number) {
+      const animations = this.animationStore.animations
+        .filter((animation) => animation.elementId === elementId)
+
+      const step = animations.some((animation) => {
+        return animation.steps.some((step) => {
+          const duration = step.duration;
+          const stepKeyframes = Array.from(Array(duration).keys());
+
+          return stepKeyframes.some((keyframe) => {
+            return animation.keyframe + step.keyframe + keyframe === index;
+          });
+        });
+      });
+      return step;
+    },
+  },
   setup() {
     const elementStore = useElementStore();
     const animationStore = useAnimationStore();
@@ -24,11 +74,11 @@ export default {
     <div class="timeline__inner">
       <div
         class="timeline__element-row"
-        v-for="(element, index) in elementStore.elements"
+        v-for="(element, elementIndex) in elementStore.elements"
         :key="index"
       >
         <div
-          @click="elementStore.selectElement(index)"
+          @click="elementStore.selectElement(elementIndex)"
           class="timeline__element-name"
           :class="{
             'timeline__element-name--selected': index === elementStore.selected,
@@ -36,12 +86,27 @@ export default {
         >
           {{ element.name }}
         </div>
-        <div
-          v-for="(keyframe, index) in keyframes"
-          :key="index"
-          class="timeline__keyframe"
-          @click="animationStore.createAnimation(element.id, index)"
-        ></div>
+        <template v-for="(_keyframe, index) in keyframes" :key="index">
+          <div
+            v-if="isStep(element.id, index)"
+            class="timeline__keyframe timeline__keyframe--step"
+          >
+            A{{ index + 1 }}
+          </div>
+          <div
+            v-else-if="isInStep(element.id, index)"
+            class="timeline__keyframe timeline__keyframe--in-step"
+          >
+            B{{ index + 1 }}
+          </div>
+          <div
+            v-else
+            class="timeline__keyframe timeline__keyframe--empty"
+            @click="createAnimation(elementIndex, index)"
+          >
+            C{{ index + 1 }}
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -56,6 +121,7 @@ export default {
   bottom: 0px;
   border-top: 1px solid #aaa;
   overflow: hidden;
+  color: #000;
 }
 .timeline__inner {
   overflow: auto;
@@ -93,11 +159,16 @@ export default {
   width: 24px;
   height: 32px;
   border: 1px solid #ccc;
-  background: aquamarine;
   border-top: 0;
   border-left: 0;
   transition: filter 0.15s ease-in-out;
   cursor: pointer;
+}
+.timeline__keyframe--step {
+  background: chartreuse;
+}
+.timeline__keyframe--in-step {
+  background: aquamarine;
 }
 .timeline__keyframe:hover {
   filter: brightness(0.95);
@@ -106,7 +177,7 @@ export default {
   background: greenyellow;
 }
 .timeline__keyframe--empty {
-  background: #ccc;
+  background: #eee;
 }
 .timeline__keyframe:hover::before,
 .timeline__keyframe--empty:hover::before {

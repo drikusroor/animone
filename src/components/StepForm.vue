@@ -42,10 +42,10 @@ export default {
 <template>
   <div class="animation-form">
     <h2>Steps</h2>
-    <form v-if="!!selectedSteps">
+    <form v-if="!!animation && !!selectedStep">
       <h3>Edit step</h3>
 
-      <div v-for="(step, index) in animation.steps" :key="index">
+      <div v-for="(step, index) in animation?.steps" :key="index">
         <textarea
           v-model="selectedStep.styleString"
           name="style"
