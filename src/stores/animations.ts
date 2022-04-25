@@ -17,7 +17,13 @@ export const useAnimationStore = defineStore({
     },
   },
   actions: {
-    createAnimation(elementId: number, keyframe: number) {
+    createAnimation(elementId: number, keyframe: number = 0) {
+
+      // if elementId is falsy and not zero, throw an error
+      if (!(elementId || elementId === 0)) {
+        throw new Error("Element id is required");
+      }
+
       if (
         this.animations.find(
           (animation) =>
