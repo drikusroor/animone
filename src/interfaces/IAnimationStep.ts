@@ -6,5 +6,4 @@ export interface IAnimationStep {
   duration: number;
   easing: string;
   entries: IAnimationEntry[];
-  keyframe: number;
 }
