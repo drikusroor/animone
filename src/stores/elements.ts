@@ -37,7 +37,7 @@ export const useElementStore = defineStore({
     },
   },
   actions: {
-    createElement(element: IElement) {
+    createElement() {
       const id = this.counter;
       this.counter += 1;
       const name = "New element";
@@ -49,6 +49,7 @@ export const useElementStore = defineStore({
       };
       const styleString = stringifyStyle(style);
       this.elements = [...this.elements, { id, name, style, styleString }];
+      return this.elements.length - 1;
     },
     updateElement(element: IElement, index: number) {
       element.style = parseStyleString(element.styleString);
