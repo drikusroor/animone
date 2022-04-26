@@ -177,7 +177,6 @@ export default {
   border-top: 0;
   border-left: 0;
   padding: 0.25em;
-  height: 32px;
   cursor: pointer;
   transition: background 0.15s ease-in-out;
 }
