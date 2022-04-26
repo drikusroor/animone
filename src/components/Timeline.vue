@@ -3,6 +3,9 @@ import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
+import { Animation } from "../models/Animation";
+import { AnimationStep } from "../models/AnimationStep";
+import { Keyframe, EKeyframe } from "../models/Keyframe";
 
 export default {
   components: {
@@ -22,25 +25,41 @@ export default {
       return useElementStore();
     },
     keyframes() {
-      const elementAnimationDurations = this.elementStore.elements.map(
-        (element) => {
-          return this.animationStore.animations
-            .filter((a) => a.elementId === element.id)
-            .map((a) => {
-              return (
-                a.keyframe +
-                a.steps.reduce((stepsDuration, step) => {
-                  return (stepsDuration += step.duration + step.delay);
-                }, 0)
-              );
-            });
-        }
+      const animations = this.animationStore.animations;
+      const animationsKeyframes: Keyframe[][] = animations.map((animation) =>
+        this.getAnimationKeyframes(animation)
+      );
+      const flattenedKeyframes = animationsKeyframes.reduce((acc, curr) => {
+        return [...acc, ...curr];
+      }, []);
+      const flattenedKeyframesNumbers = flattenedKeyframes.map(
+        (keyframe) => keyframe.keyframe
       );
 
-      const maxDuration = Math.max(elementAnimationDurations);
-      const keyframes = Math.max(maxDuration + 25, 50)
+      const maxDuration = Math.max(...flattenedKeyframesNumbers);
+      const keyframesAmount = Math.max(maxDuration + 25, 50);
 
-      return Array.from(Array(keyframes).keys());
+      const emptyKeyframes = Array.from(Array(keyframesAmount).keys());
+
+      return this.elementStore.elements.reduce((acc, element) => {
+        let elementKeyframes = flattenedKeyframes.filter(
+          (keyframe) => keyframe.step.animation.element.id === element.id
+        );
+
+        elementKeyframes = emptyKeyframes.map((_keyframe, i) => {
+          const elementKeyframe = elementKeyframes.find(
+            (eKeyframe) => eKeyframe.keyframe === i
+          );
+
+          // return element keyframe if exists, if not return empty keyframe
+          return elementKeyframe ?? new Keyframe(i, EKeyframe.EMPTY);
+        });
+
+        return {
+          ...acc,
+          [element.id]: elementKeyframes,
+        };
+      }, {});
     },
   },
   methods: {
@@ -49,8 +68,9 @@ export default {
       this.elementStore.selectElement(elementIndex);
     },
     createAnimation(elementIndex, keyframeIndex) {
+      const element = this.elementStore.elements[elementIndex];
       const animationIndex = this.animationStore.createAnimation(
-        elementIndex,
+        element,
         keyframeIndex
       );
 
@@ -67,52 +87,61 @@ export default {
       // select step
       this.animationStore.selectStep(stepIndex);
     },
-    isStep(elementId: number, index: number) {
-      const animations = this.animationStore.animations.filter(
-        (animation) => animation.elementId === elementId
+    getAnimationKeyframes(animation: Animation) {
+      const keyframes = animation.steps.reduce(
+        (keyframes, step, i): Keyframe[] => {
+          const stepDelayKeyframes =
+            step.delay > 0
+              ? Array.from(Array(step.delay).keys()).map((i) => {
+                  return new Keyframe(
+                    animation.keyframe + i - step.delay,
+                    EKeyframe.STEP_DELAY,
+                    step
+                  );
+                })
+              : [];
+
+          const stepKeyframe = new Keyframe(
+            animation.keyframe,
+            EKeyframe.STEP,
+            step
+          );
+
+          const stepDurationKeyframes =
+            step.duration > 1
+              ? Array.from(Array(step.duration - 1).keys()).map((i) => {
+                  return new Keyframe(
+                    animation.keyframe + 1 + i,
+                    EKeyframe.STEP_DURATION,
+                    step
+                  );
+                })
+              : [];
+
+          return [
+            ...keyframes,
+            ...stepDelayKeyframes,
+            stepKeyframe,
+            ...stepDurationKeyframes,
+          ];
+        },
+        []
       );
 
-      const step = animations.some((animation) => {
-        return animation.steps.some((step) => {
-          return animation.keyframe + step.keyframe === index;
-        });
-      });
-      return step;
+      return keyframes;
     },
-    isInStep(elementId: number, index: number) {
-      const animations = this.animationStore.animations.filter(
-        (animation) => animation.elementId === elementId
-      );
-
-      const step = animations.some((animation) => {
-        return animation.steps.some((step) => {
-          const duration = step.duration;
-          const stepKeyframes = Array.from(Array(duration).keys());
-
-          return stepKeyframes.some((keyframe) => {
-            return animation.keyframe + step.keyframe + keyframe === index;
-          });
-        });
-      });
-      return step;
-    },
-    selectStep(elementIndex: number, keyframeIndex: number) {
+    selectStep(keyframe: Keyframe) {
       // get element id
-      const elementId = this.elementStore.elements[elementIndex].id;
+      const { element, animation, step } = keyframe;
+
+      // get element index
+      const elementIndex = this.elementStore.elements.indexOf(element);
 
       // get animation index
-      const animationIndex = this.animationStore.animations.findIndex(
-        (animation) =>
-          animation.elementId === elementId &&
-          animation.keyframe === keyframeIndex
-      );
-
-      const animation = this.animationStore.animations[animationIndex];
+      const animationIndex = this.animationStore.animations.indexOf(animation);
 
       // get step index
-      const stepIndex = animation.steps.findIndex(
-        (step) => animation.keyframe + step.keyframe === keyframeIndex
-      );
+      const stepIndex = animation.steps.indexOf(step);
 
       // select element
       this.elementStore.selectElement(elementIndex);
@@ -142,7 +171,7 @@ export default {
       <div
         class="timeline__element-row"
         v-for="(element, elementIndex) in elementStore.elements"
-        :key="index"
+        :key="elementIndex"
       >
         <div
           @click="elementStore.selectElement(elementIndex)"
@@ -155,15 +184,24 @@ export default {
         >
           {{ element.name }}
         </div>
-        <template v-for="(_keyframe, keyframeIndex) in keyframes" :key="index">
+        <template
+          v-for="(keyframe, keyframeIndex) in keyframes[element.id]"
+          :key="keyframeIndex"
+        >
           <div
-            v-if="isStep(element.id, keyframeIndex)"
-            class="timeline__keyframe timeline__keyframe--step"
-            @click="selectStep(elementIndex, keyframeIndex)"
+            v-if="keyframe.type === 'STEP_DELAY'"
+            class="timeline__keyframe timeline__keyframe--step-delay"
+            @click="selectStep(keyframe)"
           ></div>
           <div
-            v-else-if="isInStep(element.id, keyframeIndex)"
-            class="timeline__keyframe timeline__keyframe--in-step"
+            v-else-if="keyframe.type === 'STEP'"
+            class="timeline__keyframe timeline__keyframe--step"
+            @click="selectStep(keyframe)"
+          ></div>
+          <div
+            v-else-if="keyframe.type === 'STEP_DURATION'"
+            class="timeline__keyframe timeline__keyframe--step-duration"
+            @click="selectStep(keyframe)"
           ></div>
           <div
             v-else
@@ -241,8 +279,11 @@ export default {
 .timeline__keyframe--step {
   background: chartreuse;
 }
-.timeline__keyframe--in-step {
+.timeline__keyframe--step-duration {
   background: aquamarine;
+}
+.timeline__keyframe--step-delay {
+  background: peru;
 }
 .timeline__keyframe:hover {
   filter: brightness(0.95);

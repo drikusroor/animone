@@ -1,4 +1,4 @@
-import type { IElement } from "@/interfaces/IElement";
+import { AnimationElement } from "@/models/AnimationElement";
 import { defineStore } from "pinia";
 
 export function camelize(s: string) {
@@ -25,7 +25,7 @@ export function parseStyleString(styleString: string): {
 export const useElementStore = defineStore({
   id: "elements",
   state: () => ({
-    elements: [] as IElement[],
+    elements: [] as AnimationElement[],
     selectedElementIndex: -1,
     counter: 0,
   }),
@@ -48,10 +48,13 @@ export const useElementStore = defineStore({
         padding: "0.5em",
       };
       const styleString = stringifyStyle(style);
-      this.elements = [...this.elements, { id, name, style, styleString }];
+      this.elements = [
+        ...this.elements,
+        new AnimationElement({ id, name, style, styleString }),
+      ];
       return this.elements.length - 1;
     },
-    updateElement(element: IElement, index: number) {
+    updateElement(element: AnimationElement, index: number) {
       element.style = parseStyleString(element.styleString);
       this.elements[index] = element;
     },

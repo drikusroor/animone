@@ -1,12 +1,13 @@
-import type { IAnimation } from "@/interfaces/IAnimation";
-import type { IAnimationEntry } from "@/interfaces/IAnimationEntry";
-import type { IAnimationStep } from "@/interfaces/IAnimationStep";
+import { Animation } from "@/models/Animation";
+import type { AnimationEntry } from "@/models/AnimationEntry";
+import type { AnimationStep } from "@/models/AnimationStep";
 import { defineStore } from "pinia";
+import type { AnimationElement } from "@/models/AnimationElement";
 
 export const useAnimationStore = defineStore({
   id: "animations",
   state: () => ({
-    animations: [] as IAnimation[],
+    animations: [] as Animation[],
     selectedAnimationIndex: -1,
     selectedStepIndex: -1,
   }),
@@ -26,31 +27,34 @@ export const useAnimationStore = defineStore({
     },
   },
   actions: {
-    createAnimation(elementId: number, keyframe: number) {
+    createAnimation(element: AnimationElement, keyframe: number) {
       // if elementId is falsy and not zero, throw an error
-      if (!(elementId || elementId === 0)) {
-        throw new Error("Element id is required");
+      if (!element) {
+        throw new Error("Element is required");
       }
 
       if (
         this.animations.find(
           (animation) =>
-            animation.elementId === elementId && animation.keyframe === keyframe
+            animation.element.id === element.id &&
+            animation.keyframe === keyframe
         )
       ) {
         throw new Error("Keyframe already exists for this element!");
       }
 
-      this.animations.push({
+      const animation = new Animation({
         name: "New animation",
-        elementId: elementId,
+        element,
         steps: [],
         keyframe,
       });
 
+      this.animations.push(animation);
+
       return this.animations.length - 1;
     },
-    createAnimationStep(animationIndex: number, keyframe: number) {
+    createAnimationStep(animationIndex: number) {
       if (animationIndex < 0) {
         throw new Error("Animation index is required");
       }
@@ -64,23 +68,23 @@ export const useAnimationStore = defineStore({
       animation.steps.push({
         name: "New step",
         duration: 2,
-        delay: 0,
+        delay: 2,
         easing: "linear",
-        keyframe,
         entries: [],
+        animation
       });
 
       return animation.steps.length - 1;
     },
     updateAnimation(
-      animation: IAnimation,
+      animation: Animation,
       groupIndex: number,
       animationIndex: number
     ) {
       throw new Error("Not yet implemented");
     },
     updateAnimationStep(
-      animationStep: IAnimationStep,
+      animationStep: AnimationStep,
       groupIndex: number,
       animationIndex: number,
       stepIndex: number
@@ -88,7 +92,7 @@ export const useAnimationStore = defineStore({
       throw new Error("Not yet implemented");
     },
     updateAnimationEntry(
-      animationEntry: IAnimationEntry,
+      animationEntry: AnimationEntry,
       groupIndex: number,
       animationIndex: number,
       stepIndex: number,
