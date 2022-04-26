@@ -5,7 +5,7 @@ export default {
   props: ["element", "index"],
   computed: {
     selected() {
-      return this.store.selected === this.index;
+      return this.store.selectedElementIndex === this.index;
     },
   },
   setup() {

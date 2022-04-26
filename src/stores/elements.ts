@@ -26,13 +26,13 @@ export const useElementStore = defineStore({
   id: "elements",
   state: () => ({
     elements: [] as IElement[],
-    selected: -1,
+    selectedElementIndex: -1,
     counter: 0,
   }),
   getters: {
     selectedElement: (state) => {
-      if (state.selected > -1) {
-        return state.elements[state.selected];
+      if (state.selectedElementIndex > -1) {
+        return state.elements[state.selectedElementIndex];
       }
     },
   },
@@ -55,7 +55,7 @@ export const useElementStore = defineStore({
       this.elements[index] = element;
     },
     selectElement(index: number) {
-      this.selected = index;
+      this.selectedElementIndex = index;
     },
   },
 });

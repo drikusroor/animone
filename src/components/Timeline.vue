@@ -2,7 +2,7 @@
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
-import { PlusOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined } from "@ant-design/icons-vue";
 
 export default {
   components: {
@@ -23,16 +23,23 @@ export default {
     },
   },
   methods: {
-    createAnimation(elementIndex, index) {
+    createAnimation(elementIndex, keyframeIndex) {
       const animationIndex = this.animationStore.createAnimation(
         elementIndex,
-        index
+        keyframeIndex
       );
+
+      // select element
+      this.elementStore.selectElement(elementIndex);
+
+      // select animation
       this.animationStore.selectAnimation(animationIndex);
       const stepIndex = this.animationStore.createAnimationStep(
         animationIndex,
         0
       );
+
+      // select step
       this.animationStore.selectStep(stepIndex);
     },
     isStep(elementId: number, index: number) {
@@ -64,21 +71,22 @@ export default {
       });
       return step;
     },
-    selectStep(elementIndex: number, index: number) {
+    selectStep(elementIndex: number, keyframeIndex: number) {
       // get element id
       const elementId = this.elementStore.elements[elementIndex].id;
 
       // get animation index
       const animationIndex = this.animationStore.animations.findIndex(
         (animation) =>
-          animation.elementId === elementId && animation.keyframe === index
+          animation.elementId === elementId &&
+          animation.keyframe === keyframeIndex
       );
 
       const animation = this.animationStore.animations[animationIndex];
 
       // get step index
       const stepIndex = animation.steps.findIndex(
-        (step) => animation.keyframe + step.keyframe === index
+        (step) => animation.keyframe + step.keyframe === keyframeIndex
       );
 
       // select element
@@ -115,25 +123,27 @@ export default {
           @click="elementStore.selectElement(elementIndex)"
           class="timeline__element-name"
           :class="{
-            'timeline__element-name--selected': index === elementStore.selected,
+            'timeline__element-name--selected':
+              elementIndex === elementStore.selectedElementIndex,
           }"
+          :style="{ background: element.style.background }"
         >
           {{ element.name }}
         </div>
-        <template v-for="(_keyframe, index) in keyframes" :key="index">
+        <template v-for="(_keyframe, keyframeIndex) in keyframes" :key="index">
           <div
-            v-if="isStep(element.id, index)"
+            v-if="isStep(element.id, keyframeIndex)"
             class="timeline__keyframe timeline__keyframe--step"
-            @click="selectStep(elementIndex, index)"
+            @click="selectStep(elementIndex, keyframeIndex)"
           ></div>
           <div
-            v-else-if="isInStep(element.id, index)"
+            v-else-if="isInStep(element.id, keyframeIndex)"
             class="timeline__keyframe timeline__keyframe--in-step"
           ></div>
           <div
             v-else
             class="timeline__keyframe timeline__keyframe--empty"
-            @click="createAnimation(elementIndex, index)"
+            @click="createAnimation(elementIndex, keyframeIndex)"
           ></div>
         </template>
       </div>
