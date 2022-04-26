@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
 import { Button } from "ant-design-vue";
-import { PlusOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined } from "@ant-design/icons-vue";
 
 export default {
   components: {
@@ -58,9 +58,16 @@ export default {
           placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
           @input="(e) => onChangeStyle(selectedAnimation.styleString)"
         />
-        <label for="duration">Step duration (in keyframes)</label>
-        <input type="range" v-model="step.duration" />
-        <input type="number" v-model="step.duration" />
+        <div>
+          <label for="delay">Step delay (in keyframes)</label>
+          <input name="delay" type="range" v-model="step.delay" />
+          <input name="delay" type="number" v-model="step.delay" />
+        </div>
+        <div>
+          <label for="duration">Step duration (in keyframes)</label>
+          <input name="duration" type="range" v-model="step.duration" />
+          <input name="duration" type="number" v-model="step.duration" />
+        </div>
       </div>
     </form>
     <hr />
