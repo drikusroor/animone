@@ -2,10 +2,12 @@
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
+import { PlusOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {
     Button,
+    PlusOutlined,
   },
   data() {
     return {
@@ -141,7 +143,8 @@ export default {
             @click="elementStore.createElement()"
             class="timeline__element-name--create"
           >
-            Create Element ➕
+            Create Element
+            <template #icon><PlusOutlined /></template>
           </Button>
         </div>
       </div>

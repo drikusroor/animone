@@ -1,10 +1,12 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
-import { Button } from 'ant-design-vue';
+import { Button } from "ant-design-vue";
+import { PlusOutlined } from '@ant-design/icons-vue';
 
 export default {
   components: {
     Button,
+    PlusOutlined,
   },
   data() {
     return {
@@ -60,7 +62,10 @@ export default {
       </div>
     </form>
     <hr />
-    <Button @click="createStep">Add Step</Button>
+    <Button @click="createStep">
+      Add Step
+      <template #icon><PlusOutlined /></template>
+    </Button>
     <h2>Steps</h2>
     <ul class="step-form__list">
       <li
