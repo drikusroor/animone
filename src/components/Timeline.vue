@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      keyframes: Array.from(Array(100).keys()),
+      keyframes: [],
     };
   },
   computed: {
@@ -21,8 +21,33 @@ export default {
     elementStore() {
       return useElementStore();
     },
+    keyframes() {
+      const elementAnimationDurations = this.elementStore.elements.map(
+        (element) => {
+          return this.animationStore.animations
+            .filter((a) => a.elementId === element.id)
+            .map((a) => {
+              return (
+                a.keyframe +
+                a.steps.reduce((stepsDuration, step) => {
+                  return (stepsDuration += step.duration + step.delay);
+                }, 0)
+              );
+            });
+        }
+      );
+
+      const maxDuration = Math.max(elementAnimationDurations);
+      const keyframes = Math.max(maxDuration + 25, 50)
+
+      return Array.from(Array(keyframes).keys());
+    },
   },
   methods: {
+    createElement() {
+      const elementIndex = this.elementStore.createElement();
+      this.elementStore.selectElement(elementIndex);
+    },
     createAnimation(elementIndex, keyframeIndex) {
       const animationIndex = this.animationStore.createAnimation(
         elementIndex,
@@ -150,7 +175,7 @@ export default {
       <div class="timeline__element-row">
         <div class="timeline__element-name">
           <Button
-            @click="elementStore.createElement()"
+            @click="createElement()"
             class="timeline__element-name--create"
           >
             Create Element
