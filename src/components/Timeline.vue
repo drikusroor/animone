@@ -90,11 +90,13 @@ export default {
     getAnimationKeyframes(animation: Animation) {
       const keyframes = animation.steps.reduce(
         (keyframes, step, i): Keyframe[] => {
+          const currentKeyframesLength = keyframes.length;
+
           const stepDelayKeyframes =
             step.delay > 0
               ? Array.from(Array(step.delay).keys()).map((i) => {
                   return new Keyframe(
-                    animation.keyframe + i - step.delay,
+                    animation.keyframe + currentKeyframesLength + i - step.delay,
                     EKeyframe.STEP_DELAY,
                     step
                   );
@@ -102,7 +104,7 @@ export default {
               : [];
 
           const stepKeyframe = new Keyframe(
-            animation.keyframe,
+            animation.keyframe + currentKeyframesLength,
             EKeyframe.STEP,
             step
           );
@@ -111,7 +113,7 @@ export default {
             step.duration > 1
               ? Array.from(Array(step.duration - 1).keys()).map((i) => {
                   return new Keyframe(
-                    animation.keyframe + 1 + i,
+                    animation.keyframe + currentKeyframesLength + 1 + i,
                     EKeyframe.STEP_DURATION,
                     step
                   );
