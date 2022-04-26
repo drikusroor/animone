@@ -1,5 +1,5 @@
 <script lang="ts">
-import { parseStyleString, useElementStore } from "../stores/elements";
+import { useElementStore } from "../stores/elements";
 
 export default {
   data() {
@@ -57,9 +57,6 @@ export default {
         @input="(e) => onChangeStyle(selectedElement.styleString)"
       />
     </form>
-    <hr />
-    <h3>Create new element</h3>
-    <button @click="createElement()">New element</button>
     <hr />
     <h2>Elements</h2>
     <ul class="element-form__list">
