@@ -48,16 +48,18 @@ export default {
 <template>
   <div class="step-form">
     <h2>Steps</h2>
-    <form v-if="!!animation && !!selectedStep">
+    <form v-if="!!selectedStep">
       <h3>Edit step</h3>
 
-      <div v-for="(step, index) in animation?.steps" :key="index">
+      <div v-for="(step, index) in store.selectedAnimation?.steps" :key="index">
         <textarea
           v-model="selectedStep.styleString"
           name="style"
           placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
           @input="(e) => onChangeStyle(selectedAnimation.styleString)"
         />
+        <label for="duration">Step duration (in keyframes)</label>
+        <input type="range" v-model="selectedStep.duration" />
         <input type="number" v-model="selectedStep.duration" />
       </div>
     </form>
