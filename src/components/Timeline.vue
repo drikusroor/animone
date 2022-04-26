@@ -1,7 +1,12 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
+import { Button } from "ant-design-vue";
+
 export default {
+  components: {
+    Button,
+  },
   data() {
     return {
       keyframes: Array.from(Array(100).keys()),
@@ -132,12 +137,12 @@ export default {
       </div>
       <div class="timeline__element-row">
         <div class="timeline__element-name">
-          <button
+          <Button
             @click="elementStore.createElement()"
             class="timeline__element-name--create"
           >
             Create Element ➕
-          </button>
+          </Button>
         </div>
       </div>
     </div>

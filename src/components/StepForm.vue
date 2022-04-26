@@ -1,7 +1,11 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
+import { Button } from 'ant-design-vue';
 
 export default {
+  components: {
+    Button,
+  },
   data() {
     return {
       defaultStyle: {
@@ -56,7 +60,7 @@ export default {
       </div>
     </form>
     <hr />
-    <button @click="createStep">Add Step</button>
+    <Button @click="createStep">Add Step</Button>
     <h2>Steps</h2>
     <ul class="step-form__list">
       <li
