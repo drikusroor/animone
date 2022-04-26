@@ -96,7 +96,7 @@ export default {
             step.delay > 0
               ? Array.from(Array(step.delay).keys()).map((i) => {
                   return new Keyframe(
-                    animation.keyframe + currentKeyframesLength + i - step.delay,
+                    animation.keyframe + currentKeyframesLength + i,
                     EKeyframe.STEP_DELAY,
                     step
                   );
@@ -104,7 +104,7 @@ export default {
               : [];
 
           const stepKeyframe = new Keyframe(
-            animation.keyframe + currentKeyframesLength,
+            animation.keyframe + currentKeyframesLength + step.delay,
             EKeyframe.STEP,
             step
           );
@@ -113,7 +113,7 @@ export default {
             step.duration > 1
               ? Array.from(Array(step.duration - 1).keys()).map((i) => {
                   return new Keyframe(
-                    animation.keyframe + currentKeyframesLength + 1 + i,
+                    animation.keyframe + currentKeyframesLength + 1 + i + step.delay,
                     EKeyframe.STEP_DURATION,
                     step
                   );
