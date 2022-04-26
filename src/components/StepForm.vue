@@ -40,7 +40,7 @@ export default {
 </script>
 
 <template>
-  <div class="animation-form">
+  <div class="step-form">
     <h2>Steps</h2>
     <form v-if="!!animation && !!selectedStep">
       <h3>Edit step</h3>
@@ -52,6 +52,7 @@ export default {
           placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
           @input="(e) => onChangeStyle(selectedAnimation.styleString)"
         />
+        <input type="number" v-model="selectedStep.duration" />
       </div>
     </form>
     <hr />

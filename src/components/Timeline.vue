@@ -57,6 +57,32 @@ export default {
       });
       return step;
     },
+    selectStep(elementIndex: number, index: number) {
+      // get element id
+      const elementId = this.elementStore.elements[elementIndex].id;
+
+      // get animation index
+      const animationIndex = this.animationStore.animations.findIndex(
+        (animation) =>
+          animation.elementId === elementId && animation.keyframe === index
+      );
+
+      const animation = this.animationStore.animations[animationIndex];
+
+      // get step index
+      const stepIndex = animation.steps.findIndex(
+        (step) => animation.keyframe + step.keyframe === index
+      );
+
+      // select element
+      this.elementStore.selectElement(elementIndex);
+
+      // select animation
+      this.animationStore.selectAnimation(animationIndex);
+
+      // select step
+      this.animationStore.selectStep(stepIndex);
+    },
   },
   setup() {
     const elementStore = useElementStore();
@@ -71,7 +97,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="elementStore.elements.length > 0" class="timeline">
+  <div class="timeline">
     <div class="timeline__inner">
       <div
         class="timeline__element-row"
@@ -91,19 +117,17 @@ export default {
           <div
             v-if="isStep(element.id, index)"
             class="timeline__keyframe timeline__keyframe--step"
-          >
-          </div>
+            @click="selectStep(elementIndex, index)"
+          ></div>
           <div
             v-else-if="isInStep(element.id, index)"
             class="timeline__keyframe timeline__keyframe--in-step"
-          >
-          </div>
+          ></div>
           <div
             v-else
             class="timeline__keyframe timeline__keyframe--empty"
             @click="createAnimation(elementIndex, index)"
-          >
-          </div>
+          ></div>
         </template>
       </div>
       <div class="timeline__element-row">

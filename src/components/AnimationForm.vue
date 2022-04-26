@@ -59,7 +59,7 @@ export default {
     <ul class="animation-form__list">
       <li
         class="animation-form__item"
-        :class="{ 'animation-form__item--selected': index === store.selected }"
+        :class="{ 'animation-form__item--selected': index === store.selectedAnimationIndex }"
         v-for="(animation, index) in store.animations"
         :key="animation.name"
         @click="store.selectAnimation(index)"
