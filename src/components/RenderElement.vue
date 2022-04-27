@@ -1,26 +1,34 @@
 <script lang="ts">
+import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 
 export default {
   props: ["element", "index"],
   computed: {
     selected() {
-      return this.store.selectedElementIndex === this.index;
+      return this.elementStore.selectedElementIndex === this.index;
+    },
+    elementStyle() {
+      const stepStyle = this.animationStore.selectedStep
+        ? this.animationStore.selectedStep.css
+        : {};
+      return { ...this.element.style, ...stepStyle };
     },
   },
   setup() {
-    const store = useElementStore();
-    return { store };
+    const animationStore = useAnimationStore();
+    const elementStore = useElementStore();
+    return { animationStore, elementStore };
   },
 };
 </script>
 
 <template>
   <div
-    @click="store.selectElement(index)"
+    @click="elementStore.selectElement(index)"
     class="element"
     :class="{ 'element--selected': selected, [element.className]: true }"
-    :style="element.style"
+    :style="elementStyle"
   ></div>
 </template>
 
