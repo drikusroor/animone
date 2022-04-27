@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     onChangeStyle() {
-      this.store.updateAnimation(this.store.selectedAnimation, this.index);
+      this.store.updateAnimationStep(this.store.selectedAnimation, this.index);
     },
     createStep() {
       this.store.createAnimationStep(this.store.selectedAnimationIndex, 0);
@@ -55,8 +55,7 @@ export default {
         <textarea
           v-model="step.styleString"
           name="style"
-          placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
-          @input="(e) => onChangeStyle(selectedAnimation.styleString)"
+          :placeholder="'Enter styling, ex:\nbackground: blue;\nwidth: 300px;\nheight: 100px;'"
         />
         <div>
           <label for="delay">Step delay (in keyframes)</label>

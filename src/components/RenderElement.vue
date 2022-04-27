@@ -19,7 +19,7 @@ export default {
   <div
     @click="store.selectElement(index)"
     class="element"
-    :class="{ 'element--selected': selected }"
+    :class="{ 'element--selected': selected, [element.className]: true }"
     :style="element.style"
   ></div>
 </template>

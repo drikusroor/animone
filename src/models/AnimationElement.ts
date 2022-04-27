@@ -1,8 +1,14 @@
+import { hyphenify } from "@/helpers/style";
+
 export class AnimationElement {
   id: number;
   name: string;
   style: { [key: string]: string };
   styleString: string;
+
+  public get className(): string {
+    return hyphenify(this.name);
+  }
 
   public constructor({ id, name, style, styleString }: IAnimationElement) {
     this.id = id;

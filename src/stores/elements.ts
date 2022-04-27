@@ -1,26 +1,6 @@
+import { parseStyleString, stringifyStyle } from "@/helpers/style";
 import { AnimationElement } from "@/models/AnimationElement";
 import { defineStore } from "pinia";
-
-export function camelize(s: string) {
-  return s.replace(/-./g, (x) => x[1].toUpperCase());
-}
-
-export function stringifyStyle(style: { [key: string]: string }) {
-  return Object.keys(style)
-    .map((key) => {
-      return `${key}: ${style[key]};`;
-    })
-    .join("\n");
-}
-
-export function parseStyleString(styleString: string): {
-  [key: string]: string;
-} {
-  return styleString.split(/;/).reduce((style, line) => {
-    const [key, value] = line.split(":").map((v) => v.trim());
-    return { ...style, [camelize(key)]: value };
-  }, {});
-}
 
 export const useElementStore = defineStore({
   id: "elements",

@@ -1,6 +1,6 @@
 import { Animation } from "@/models/Animation";
 import type { AnimationEntry } from "@/models/AnimationEntry";
-import type { AnimationStep } from "@/models/AnimationStep";
+import { AnimationStep } from "@/models/AnimationStep";
 import { defineStore } from "pinia";
 import type { AnimationElement } from "@/models/AnimationElement";
 
@@ -65,14 +65,16 @@ export const useAnimationStore = defineStore({
         throw new Error("Animation does not exist!");
       }
 
-      animation.steps.push({
-        name: "New step",
-        duration: 2,
-        delay: 2,
-        easing: "linear",
-        entries: [],
-        animation
-      });
+      animation.steps.push(
+        new AnimationStep({
+          name: "New step",
+          duration: 2,
+          delay: 0,
+          easing: "linear",
+          entries: [],
+          animation,
+        })
+      );
 
       return animation.steps.length - 1;
     },

@@ -1,3 +1,4 @@
+import { parseStyleString } from "@/helpers/style";
 import type { Animation } from "./Animation";
 import type { AnimationEntry } from "./AnimationEntry";
 
@@ -8,6 +9,11 @@ export class AnimationStep {
   easing: string;
   entries: AnimationEntry[];
   animation: Animation;
+  styleString = "";
+
+  public get css(): { [key: string]: string } {
+    return parseStyleString(this.styleString);
+  }
 
   public constructor({
     name,

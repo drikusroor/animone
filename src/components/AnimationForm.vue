@@ -1,4 +1,5 @@
 <script lang="ts">
+import { Animation } from "../models/Animation";
 import { useAnimationStore } from "../stores/animations";
 
 export default {
@@ -22,6 +23,9 @@ export default {
     },
     createAnimation() {
       this.store.createAnimation();
+    },
+    generatedCss(animation: Animation) {
+      return animation?.css;
     },
   },
   setup() {
@@ -59,7 +63,10 @@ export default {
     <ul class="animation-form__list">
       <li
         class="animation-form__item"
-        :class="{ 'animation-form__item--selected': index === store.selectedAnimationIndex }"
+        :class="{
+          'animation-form__item--selected':
+            index === store.selectedAnimationIndex,
+        }"
         v-for="(animation, index) in store.animations"
         :key="animation.name"
         @click="store.selectAnimation(index)"
@@ -67,6 +74,9 @@ export default {
         {{ animation.name }} - {{ animation.keyframe + 1 }}
       </li>
     </ul>
+    <pre>
+      {{ generatedCss(store.selectedAnimation) }}
+    </pre>
   </div>
 </template>
 
