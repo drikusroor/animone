@@ -1,10 +1,20 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
+import { Button } from "ant-design-vue";
+import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 
 export default {
   props: ["element", "index"],
+  components: {
+    Button,
+    PlayCircleOutlined,
+    StopOutlined,
+  },
   computed: {
+    getAnimationCss() {
+      return this.animationStore.selectedAnimation?.css;
+    },
     selected() {
       return this.elementStore.selectedElementIndex === this.index;
     },
@@ -13,6 +23,14 @@ export default {
         ? this.animationStore.selectedStep.css
         : {};
       return { ...this.element.style, ...stepStyle };
+    },
+  },
+  methods: {
+    playAnimation() {
+      throw new Error("Method not implemented.");
+    },
+    stopAnimation() {
+      throw new Error("Method not implemented.");
     },
   },
   setup() {
@@ -27,9 +45,21 @@ export default {
   <div
     @click="elementStore.selectElement(index)"
     class="element"
+    ref="element"
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
-  ></div>
+  >
+  <Button
+    @click="playAnimation"
+  >
+    Play
+  </Button>
+  <Button
+    @click="stopAnimation"
+  >
+    Stop
+  </Button>
+  </div>
 </template>
 
 <style scoped>
