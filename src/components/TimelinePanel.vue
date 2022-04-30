@@ -296,6 +296,15 @@ export default {
 .timeline__keyframe--selected {
   background: aquamarine;
 }
+.timeline__keyframe--selected::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: white;
+}
 .timeline__keyframe--step {
   background: aquamarine;
 }
