@@ -43,7 +43,8 @@ export default {
     <h2>Animations</h2>
     <form v-if="!!selectedAnimation">
       <h3>Edit {{ selectedAnimation.name }}</h3>
-      <input
+
+      <a-input
         v-model="selectedAnimation.name"
         type="text"
         name="name"
@@ -71,7 +72,9 @@ export default {
         :key="animation.name"
         @click="store.selectAnimation(index)"
       >
-        {{ animation.name }} - {{ animation.keyframe + 1 }}
+        {{ animation.name }} - [{{ animation.keyframe + 1 }}:{{
+          animation.keyframe + animation.totalDuration
+        }}]
       </li>
     </ul>
     <pre>

@@ -64,11 +64,11 @@ export default {
         :key="step.name"
         @click="store.selectStep(index)"
       >
-        Step {{ index + 1 }}
+        {{ index + 1 }} - {{ selectedStep.name }}
       </li>
     </ul>
     <form v-if="!!selectedStep">
-      <h3>Edit step</h3>
+      <h3>Edit {{ selectedStep.name }} ({{ store.selectedStepIndex + 1 }})</h3>
 
       <div>
         <textarea
@@ -76,16 +76,48 @@ export default {
           name="style"
           :placeholder="'Enter styling, ex:\nbackground: blue;\nwidth: 300px;\nheight: 100px;'"
         />
-        <div>
-          <label for="delay">Step delay (in keyframes)</label>
-          <input name="delay" type="range" v-model="selectedStep.delay" />
-          <input name="delay" type="number" v-model="selectedStep.delay" />
-        </div>
-        <div>
-          <label for="duration">Step duration (in keyframes)</label>
-          <input name="duration" type="range" v-model="selectedStep.duration" />
-          <input name="duration" type="number" v-model="selectedStep.duration" />
-        </div>
+        <a-row>
+          <a-col :span="20"> <label for="delay">Delay</label> </a-col>
+          <a-col :span="16">
+            <a-slider
+              v-model:value="selectedStep.delay"
+              :min="1"
+              :max="100"
+              :step="1"
+            />
+          </a-col>
+          <a-col :span="4">
+            <a-input-number
+              name="delay"
+              v-model:value="selectedStep.delay"
+              :min="1"
+              :max="24"
+              :step="1"
+              style="margin-left: 16px"
+            />
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col :span="20"><label for="duration">Duration</label></a-col>
+          <a-col :span="16">
+            <a-slider
+              v-model:value="selectedStep.duration"
+              :min="1"
+              :max="24"
+              :step="1"
+            />
+          </a-col>
+          <a-col :span="4">
+            <a-input-number
+              name="duration"
+              v-model:value="selectedStep.duration"
+              :min="1"
+              :max="100"
+              :step="1"
+              style="margin-left: 16px"
+            />
+          </a-col>
+        </a-row>
       </div>
     </form>
   </div>
