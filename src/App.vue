@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Canvas from './components/Canvas.vue'
+import CanvasBoard from './components/CanvasBoard.vue'
 import ControlPanel from './components/ControlPanel.vue'
-import Timeline from './components/Timeline.vue'
+import TimelinePanel from './components/TimelinePanel.vue'
 </script>
 
 <template>
@@ -10,8 +10,8 @@ import Timeline from './components/Timeline.vue'
   </header>
 
   <main>
-    <Canvas />
-    <Timeline />
+    <CanvasBoard />
+    <TimelinePanel />
   </main>
 </template>
 
