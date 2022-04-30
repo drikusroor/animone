@@ -78,6 +78,10 @@ export const useAnimationStore = defineStore({
 
       return animation.steps.length - 1;
     },
+    deselectAnimation(): void {
+      this.selectedAnimationIndex = -1;
+      this.selectedStepIndex = -1;
+    },
     updateAnimation(
       animation: Animation,
       groupIndex: number,

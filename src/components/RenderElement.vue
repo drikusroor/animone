@@ -21,7 +21,8 @@ export default {
     elementStyle() {
       const stepStyle =
         this.animationStore.selectedStep &&
-        this.element.id === this.animationStore.selectedStep.animation.element.id
+        this.element.id ===
+          this.animationStore.selectedStep.animation.element.id
           ? this.animationStore.selectedStep.css
           : {};
       return { ...this.element.style, ...stepStyle };
@@ -34,6 +35,12 @@ export default {
     stopAnimation() {
       throw new Error("Method not implemented.");
     },
+    selectElement() {
+      if(this.elementStore.selectedElementIndex !== this.index) {
+        this.animationStore.deselectAnimation();
+      }
+      this.elementStore.selectElement(this.index);
+    },
   },
   setup() {
     const animationStore = useAnimationStore();
@@ -45,7 +52,7 @@ export default {
 
 <template>
   <div
-    @click="elementStore.selectElement(index)"
+    @click="selectElement()"
     class="element"
     ref="element"
     :class="{ 'element--selected': selected, [element.className]: true }"
