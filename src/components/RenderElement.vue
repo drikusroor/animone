@@ -19,9 +19,11 @@ export default {
       return this.elementStore.selectedElementIndex === this.index;
     },
     elementStyle() {
-      const stepStyle = this.animationStore.selectedStep
-        ? this.animationStore.selectedStep.css
-        : {};
+      const stepStyle =
+        this.animationStore.selectedStep &&
+        this.element.id === this.animationStore.selectedStep.animation.element.id
+          ? this.animationStore.selectedStep.css
+          : {};
       return { ...this.element.style, ...stepStyle };
     },
   },
@@ -49,16 +51,8 @@ export default {
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
   >
-  <Button
-    @click="playAnimation"
-  >
-    Play
-  </Button>
-  <Button
-    @click="stopAnimation"
-  >
-    Stop
-  </Button>
+    <Button @click="playAnimation"> Play </Button>
+    <Button @click="stopAnimation"> Stop </Button>
   </div>
 </template>
 
