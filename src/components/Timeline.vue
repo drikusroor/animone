@@ -4,7 +4,6 @@ import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
 import { PlusOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
-import { AnimationStep } from "../models/AnimationStep";
 import { Keyframe, EKeyframe } from "../models/Keyframe";
 
 export default {
@@ -18,12 +17,6 @@ export default {
     };
   },
   computed: {
-    animationStore() {
-      return useAnimationStore();
-    },
-    elementStore() {
-      return useElementStore();
-    },
     keyframes() {
       const animations = this.animationStore.animations;
       const animationsKeyframes: Keyframe[][] = animations.map((animation) =>
