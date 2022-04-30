@@ -6,19 +6,34 @@ export class Keyframe {
   keyframe: number;
   type: EKeyframe;
   step?: AnimationStep;
+  relativeAnimationKeyframe?: number;
+  relativeStepKeyframe?: number;
 
-  public get animation() : Animation | undefined {
+  public get animation(): Animation | undefined {
     return this.step?.animation;
   }
 
-  public get element() : AnimationElement | undefined {
+  public get element(): AnimationElement | undefined {
     return this.step?.animation.element;
   }
 
-  constructor(keyframe: number, type: EKeyframe, step?: AnimationStep) {
+  constructor(
+    keyframe: number,
+    type: EKeyframe,
+    step?: AnimationStep,
+    relativeAnimationKeyframe?: number,
+    relativeStepKeyframe?: number
+  ) {
     this.keyframe = keyframe;
     this.type = type;
     this.step = step;
+    if (
+      relativeAnimationKeyframe !== undefined &&
+      relativeStepKeyframe !== undefined
+    ) {
+      this.relativeAnimationKeyframe = relativeAnimationKeyframe;
+      this.relativeStepKeyframe = relativeStepKeyframe;
+    }
   }
 }
 

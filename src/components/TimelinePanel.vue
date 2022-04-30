@@ -2,13 +2,19 @@
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
-import { PlusOutlined } from "@ant-design/icons-vue";
+import {
+  FieldTimeOutlined,
+  BorderOutlined,
+  PlusOutlined,
+} from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
 import { Keyframe, EKeyframe } from "../models/Keyframe";
 
 export default {
   components: {
+    BorderOutlined,
     Button,
+    FieldTimeOutlined,
     PlusOutlined,
   },
   computed: {
@@ -87,7 +93,9 @@ export default {
                   return new Keyframe(
                     animation.keyframe + currentKeyframesLength + i,
                     EKeyframe.STEP_DELAY,
-                    step
+                    step,
+                    currentKeyframesLength + i + 1 - animation.keyframe,
+                    i
                   );
                 })
               : [];
@@ -186,16 +194,32 @@ export default {
           <div
             v-if="keyframe.type === 'STEP_DELAY'"
             class="timeline__keyframe timeline__keyframe--step-delay"
+            :class="{
+              'timeline__keyframe--selected':
+                keyframe.step === animationStore.selectedStep,
+            }"
             @click="selectStep(keyframe)"
-          ></div>
+          >
+            <FieldTimeOutlined v-if="keyframe.relativeStepKeyframe === 0" />
+          </div>
           <div
             v-else-if="keyframe.type === 'STEP'"
             class="timeline__keyframe timeline__keyframe--step"
+            :class="{
+              'timeline__keyframe--selected':
+                keyframe.step === animationStore.selectedStep,
+            }"
             @click="selectStep(keyframe)"
-          ></div>
+          >
+            <BorderOutlined />
+          </div>
           <div
             v-else-if="keyframe.type === 'STEP_DURATION'"
             class="timeline__keyframe timeline__keyframe--step-duration"
+            :class="{
+              'timeline__keyframe--selected':
+                keyframe.step === animationStore.selectedStep,
+            }"
             @click="selectStep(keyframe)"
           ></div>
           <div
@@ -227,7 +251,6 @@ export default {
   background: white;
   width: 100%;
   bottom: 0px;
-  border-top: 1px solid #aaa;
   overflow: hidden;
   color: #000;
 }
@@ -244,9 +267,6 @@ export default {
   flex: 1 0 auto;
   width: 192px;
   background: #ddd;
-  border: 1px solid #aaa;
-  border-top: 0;
-  border-left: 0;
   padding: 0.25em;
   cursor: pointer;
   transition: background 0.15s ease-in-out;
@@ -265,31 +285,30 @@ export default {
   flex: 1 0 auto;
   width: 24px;
   height: 32px;
-  border: 1px solid #ccc;
   border-top: 0;
   border-left: 0;
   transition: filter 0.15s ease-in-out;
   cursor: pointer;
 }
+.timeline__keyframe:hover {
+  filter: brightness(0.9);
+}
+.timeline__keyframe--selected {
+  background: aquamarine;
+}
 .timeline__keyframe--step {
-  background: chartreuse;
+  background: aquamarine;
 }
 .timeline__keyframe--step-duration {
   background: aquamarine;
 }
 .timeline__keyframe--step-delay {
-  background: peru;
-}
-.timeline__keyframe:hover {
-  filter: brightness(0.95);
-}
-.timeline__keyframe--selected {
-  background: greenyellow;
+  background: rgb(255, 110, 110);
 }
 .timeline__keyframe--empty {
   background: #eee;
+  border-right: 1px solid #ddd;
 }
-.timeline__keyframe:hover::before,
 .timeline__keyframe--empty:hover::before {
   content: "➕";
 }
