@@ -11,11 +11,6 @@ export default {
     Button,
     PlusOutlined,
   },
-  data() {
-    return {
-      keyframes: [],
-    };
-  },
   computed: {
     keyframes() {
       const animations = this.animationStore.animations;

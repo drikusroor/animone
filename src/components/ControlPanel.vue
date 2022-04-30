@@ -1,5 +1,4 @@
-<script setup la
-  components: { AnimationForm },ng="ts">
+<script setup lang="ts">
 import AnimationForm from './AnimationForm.vue';
 import ElementForm from './ElementForm.vue';
 import StepForm from './StepForm.vue';

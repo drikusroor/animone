@@ -58,8 +58,12 @@ export default {
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
   >
-    <Button @click="playAnimation"> Play </Button>
-    <Button @click="stopAnimation"> Stop </Button>
+    <Button @click="playAnimation">
+      <PlayCircleOutlined />
+    </Button>
+    <Button @click="stopAnimation">
+      <StopOutlined />
+    </Button>
   </div>
 </template>
 
