@@ -23,4 +23,5 @@ export interface IAnimationElement {
   name: string;
   style: { [key: string]: string };
   styleString: string;
+  className: string;
 }

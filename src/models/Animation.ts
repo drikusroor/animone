@@ -1,16 +1,15 @@
 import { hyphenify } from "@/helpers/style";
 import type { AnimationElement, IAnimationElement } from "./AnimationElement";
-import { AnimationStep } from "./AnimationStep";
+import type { AnimationStep } from "./AnimationStep";
 
 export class Animation {
   name: string;
+  duration: string;
   element: AnimationElement;
   steps: AnimationStep[];
   keyframe: number;
 
-  public get css(): string {
-    const declareAnimation = `animation-name: ${this.animationName};\nanimation-duration: 5s;`;
-
+  public get keyframes(): string {
     const stepsLength = this.steps.length;
 
     const stepsCss = this.steps
@@ -26,21 +25,22 @@ export class Animation {
       })
       .join("\n");
 
-    const keyframesCss = `
+    const keyframes = `
       @keyframes ${this.animationName} {
         ${stepsCss}
       }
     `;
 
-    return [declareAnimation, keyframesCss].join("\n");
+    return keyframes;
   }
 
   public get animationName(): string {
     return hyphenify(this.name);
   }
 
-  constructor({ name, element, steps, keyframe }: IAnimation) {
+  constructor({ name, duration, element, steps, keyframe }: IAnimation) {
     this.name = name;
+    this.duration = duration ?? "5s";
     this.element = element;
     this.steps = steps;
     this.keyframe = keyframe;
@@ -49,6 +49,7 @@ export class Animation {
 
 export interface IAnimation {
   name: string;
+  duration: string;
   element: IAnimationElement;
   steps: AnimationStep[];
   keyframe: number;

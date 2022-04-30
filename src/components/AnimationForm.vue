@@ -25,7 +25,7 @@ export default {
       this.store.createAnimation();
     },
     generatedCss(animation: Animation) {
-      return animation?.css;
+      return animation?.keyframes;
     },
   },
   setup() {

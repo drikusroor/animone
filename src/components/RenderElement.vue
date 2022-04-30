@@ -11,9 +11,18 @@ export default {
     PlayCircleOutlined,
     StopOutlined,
   },
+  data() {
+    return {
+      isPlaying: true,
+    };
+  },
   computed: {
-    getAnimationCss() {
-      return this.animationStore.selectedAnimation?.css;
+    animationStyles() {
+      const keyframes = this.animationStore.animations.find(
+        (animation) => animation.element.id === this.element.id
+      )?.keyframes;
+
+      return keyframes;
     },
     selected() {
       return this.elementStore.selectedElementIndex === this.index;
@@ -30,10 +39,31 @@ export default {
   },
   methods: {
     playAnimation() {
-      throw new Error("Method not implemented.");
+      const styleElement = this.$refs.element.querySelector("style");
+      if (styleElement) {
+        return; // already playing
+      }
+
+      const animation = this.animationStore.animations.find(
+        (animation) => animation.element.id === this.element.id
+      );
+      const el = document.createElement("style");
+      const styles = `
+        .${this.element.className} {
+          animation-name: ${animation.animationName};
+          animation-duration: 5s;
+        }
+
+        ${this.animationStyles}
+      `;
+      el.innerHTML = styles;
+      this.$refs.element.appendChild(el);
+      this.isPlaying = true;
     },
     stopAnimation() {
-      throw new Error("Method not implemented.");
+      this.isPlaying = false;
+      const styleElement = this.$refs.element.querySelector("style");
+      this.$refs.element.removeChild(styleElement);
     },
     selectElement() {
       if (this.elementStore.selectedElementIndex !== this.index) {
