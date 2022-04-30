@@ -36,7 +36,7 @@ export default {
       throw new Error("Method not implemented.");
     },
     selectElement() {
-      if(this.elementStore.selectedElementIndex !== this.index) {
+      if (this.elementStore.selectedElementIndex !== this.index) {
         this.animationStore.deselectAnimation();
       }
       this.elementStore.selectElement(this.index);

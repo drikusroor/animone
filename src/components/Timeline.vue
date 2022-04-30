@@ -64,6 +64,7 @@ export default {
   },
   methods: {
     createElement() {
+      this.animationStore.deselectAnimation();
       const elementIndex = this.elementStore.createElement();
       this.elementStore.selectElement(elementIndex);
     },
@@ -113,7 +114,11 @@ export default {
             step.duration > 1
               ? Array.from(Array(step.duration - 1).keys()).map((i) => {
                   return new Keyframe(
-                    animation.keyframe + currentKeyframesLength + 1 + i + step.delay,
+                    animation.keyframe +
+                      currentKeyframesLength +
+                      1 +
+                      i +
+                      step.delay,
                     EKeyframe.STEP_DURATION,
                     step
                   );
