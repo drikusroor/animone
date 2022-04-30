@@ -25,9 +25,6 @@ export default {
     onChangeStyle() {
       this.store.updateElement(this.store.selectedElement, this.index);
     },
-    createElement() {
-      this.store.createElement();
-    },
   },
   setup() {
     const store = useElementStore();
@@ -62,7 +59,9 @@ export default {
     <ul class="element-form__list">
       <li
         class="element-form__item"
-        :class="{ 'element-form__item--selected': index === store.selectedElementIndex }"
+        :class="{
+          'element-form__item--selected': index === store.selectedElementIndex,
+        }"
         v-for="(element, index) in store.elements"
         :key="element.name"
         @click="store.selectElement(index)"
