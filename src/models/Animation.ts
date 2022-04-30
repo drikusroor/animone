@@ -4,10 +4,14 @@ import type { AnimationStep } from "./AnimationStep";
 
 export class Animation {
   name: string;
-  duration: string;
   element: AnimationElement;
   steps: AnimationStep[];
   keyframe: number;
+
+  /** Get duration in keyframes */
+  public get totalDuration(): number {
+    return this.steps.reduce((acc, step) => acc + step.totalDuration, 0);
+  }
 
   public get keyframes(): string {
     const stepsLength = this.steps.length;

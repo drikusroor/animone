@@ -15,6 +15,11 @@ export class AnimationStep {
     return parseStyleString(this.styleString);
   }
 
+  /** Get duration in keyframes */
+  public get totalDuration(): number {
+    return this.delay + this.duration;
+  }
+
   public constructor({
     name,
     delay,

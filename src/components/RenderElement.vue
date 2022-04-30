@@ -3,6 +3,7 @@ import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
+import { Animation } from "../models/Animation";
 
 export default {
   props: ["element", "index"],
@@ -14,6 +15,7 @@ export default {
   data() {
     return {
       isPlaying: true,
+      animationTimeout: null,
     };
   },
   computed: {
@@ -44,14 +46,14 @@ export default {
         return; // already playing
       }
 
-      const animation = this.animationStore.animations.find(
+      const animation: Animation = this.animationStore.animations.find(
         (animation) => animation.element.id === this.element.id
       );
       const el = document.createElement("style");
       const styles = `
         .${this.element.className} {
           animation-name: ${animation.animationName};
-          animation-duration: 5s;
+          animation-duration: ${animation.totalDuration}s;
         }
 
         ${this.animationStyles}
@@ -59,11 +61,17 @@ export default {
       el.innerHTML = styles;
       this.$refs.element.appendChild(el);
       this.isPlaying = true;
+      this.animationTimeout = setTimeout(() => {
+        this.stopAnimation();
+      }, animation.totalDuration * 1000);
     },
     stopAnimation() {
       this.isPlaying = false;
+      this.animationTimeout = null;
       const styleElement = this.$refs.element.querySelector("style");
-      this.$refs.element.removeChild(styleElement);
+      if (styleElement) {
+        this.$refs.element.removeChild(styleElement);
+      }
     },
     selectElement() {
       if (this.elementStore.selectedElementIndex !== this.index) {
