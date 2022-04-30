@@ -1,3 +1,4 @@
+![build](https://github.com/drikusroor/animone/actions/workflows/node.js.yml/badge.svg)
 # Animone 🎞️
 
 Animone is the tool that will help you to generate css animations.
