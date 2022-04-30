@@ -90,7 +90,7 @@ export default {
             <a-input-number
               name="delay"
               v-model:value="selectedStep.delay"
-              :min="1"
+              :min="0"
               :max="24"
               :step="1"
               style="margin-left: 16px"
