@@ -48,27 +48,6 @@ export default {
 <template>
   <div class="step-form">
     <h2>Steps</h2>
-    <form v-if="!!selectedStep">
-      <h3>Edit step</h3>
-
-      <div v-for="(step, index) in store.selectedAnimation?.steps" :key="index">
-        <textarea
-          v-model="step.styleString"
-          name="style"
-          :placeholder="'Enter styling, ex:\nbackground: blue;\nwidth: 300px;\nheight: 100px;'"
-        />
-        <div>
-          <label for="delay">Step delay (in keyframes)</label>
-          <input name="delay" type="range" v-model="step.delay" />
-          <input name="delay" type="number" v-model="step.delay" />
-        </div>
-        <div>
-          <label for="duration">Step duration (in keyframes)</label>
-          <input name="duration" type="range" v-model="step.duration" />
-          <input name="duration" type="number" v-model="step.duration" />
-        </div>
-      </div>
-    </form>
     <hr />
     <Button @click="createStep">
       Add Step
@@ -88,6 +67,27 @@ export default {
         Step {{ index + 1 }}
       </li>
     </ul>
+    <form v-if="!!selectedStep">
+      <h3>Edit step</h3>
+
+      <div>
+        <textarea
+          v-model="selectedStep.styleString"
+          name="style"
+          :placeholder="'Enter styling, ex:\nbackground: blue;\nwidth: 300px;\nheight: 100px;'"
+        />
+        <div>
+          <label for="delay">Step delay (in keyframes)</label>
+          <input name="delay" type="range" v-model="selectedStep.delay" />
+          <input name="delay" type="number" v-model="selectedStep.delay" />
+        </div>
+        <div>
+          <label for="duration">Step duration (in keyframes)</label>
+          <input name="duration" type="range" v-model="selectedStep.duration" />
+          <input name="duration" type="number" v-model="selectedStep.duration" />
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
