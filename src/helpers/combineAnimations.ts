@@ -1,10 +1,10 @@
 import type { Animation } from "@/models/Animation";
 
-interface IAnimationOptions {
+export interface ICombineAnimationOptions {
     keyframesPerSecond: number;
 }
 
-export function combineAnimations(animations: Animation[], options: IAnimationOptions) {
+export function combineAnimations(animations: Animation[], options: ICombineAnimationOptions) {
 
     if (!options) {
         throw new Error("Options are required");

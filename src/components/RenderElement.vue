@@ -24,9 +24,7 @@ export default {
         (animation) => animation.element.id === this.element.id
       ) as Animation;
 
-      if (animation) {
-        return animation.keyframesCss;
-      }
+      return animation?.keyframesCss;
     },
     selected() {
       return this.elementStore.selectedElementIndex === this.index;
