@@ -20,11 +20,13 @@ export default {
   },
   computed: {
     animationStyles() {
-      const keyframes = this.animationStore.animations.find(
+      const animation = this.animationStore.animations.find(
         (animation) => animation.element.id === this.element.id
-      )?.keyframes;
+      ) as Animation;
 
-      return keyframes;
+      if (animation) {
+        return animation.keyframesCss;
+      }
     },
     selected() {
       return this.elementStore.selectedElementIndex === this.index;

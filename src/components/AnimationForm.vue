@@ -1,4 +1,4 @@
-<script lang="ts">
+keyframesCss<script lang="ts">
 import { Animation } from "../models/Animation";
 import { useAnimationStore } from "../stores/animations";
 
@@ -25,7 +25,7 @@ export default {
       this.store.createAnimation();
     },
     generatedCss(animation: Animation) {
-      return animation?.keyframes;
+      return animation?.keyframesCss;
     },
   },
   setup() {

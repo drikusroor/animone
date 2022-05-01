@@ -13,7 +13,7 @@ export class Animation {
     return this.steps.reduce((acc, step) => acc + step.totalDuration, 0);
   }
 
-  public get keyframes(): string {
+  public get keyframesCss(): string {
     const stepsLength = this.steps.length;
 
     const stepsCss = this.steps
@@ -42,9 +42,8 @@ export class Animation {
     return hyphenify(this.name);
   }
 
-  constructor({ name, duration, element, steps, keyframe }: IAnimation) {
+  constructor({ name, element, steps, keyframe }: IAnimation) {
     this.name = name;
-    this.duration = duration ?? "5s";
     this.element = element;
     this.steps = steps;
     this.keyframe = keyframe;
@@ -53,7 +52,6 @@ export class Animation {
 
 export interface IAnimation {
   name: string;
-  duration: string;
   element: IAnimationElement;
   steps: AnimationStep[];
   keyframe: number;
