@@ -32,13 +32,18 @@ export default {
       return this.elementStore.selectedElementIndex === this.index;
     },
     elementStyle() {
-      const stepStyle =
-        this.animationStore.selectedStep &&
+      if (
         this.element.id ===
-          this.animationStore.selectedStep.animation.element.id
-          ? this.animationStore.selectedStep.css
-          : {};
-      return { ...this.element.style, ...stepStyle };
+          this.animationStore.selectedStep?.animation.element.id &&
+        !this.isPlaying
+      ) {
+        return {
+          ...this.element.style,
+          ...this.animationStore.selectedStep.css,
+        };
+      } else {
+        return this.element.style;
+      }
     },
   },
   methods: {
