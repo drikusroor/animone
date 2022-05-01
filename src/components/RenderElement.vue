@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      isPlaying: true,
+      isPlaying: false,
       animationTimeout: null,
     };
   },
