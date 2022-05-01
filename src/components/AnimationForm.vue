@@ -1,4 +1,4 @@
-keyframesCss<script lang="ts">
+<script lang="ts">
 import { Animation } from "../models/Animation";
 import { useAnimationStore } from "../stores/animations";
 
@@ -18,9 +18,6 @@ export default {
     },
   },
   methods: {
-    onChangeStyle() {
-      this.store.updateAnimation(this.store.selectedAnimation, this.index);
-    },
     createAnimation() {
       this.store.createAnimation();
     },
@@ -50,14 +47,6 @@ export default {
         name="name"
         placeholder="Name"
       />
-      <div v-for="(step, index) in selectedAnimation.steps" :key="index">
-        <textarea
-          v-model="selectedAnimation.styleString"
-          name="style"
-          placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
-          @input="(e) => onChangeStyle(selectedAnimation.styleString)"
-        />
-      </div>
     </form>
     <hr />
     <h2>Animations</h2>
