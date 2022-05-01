@@ -35,7 +35,7 @@ export default {
 
       const emptyKeyframes = Array.from(Array(keyframesAmount).keys());
 
-      return this.elementStore.elements.reduce((acc, element) => {
+      const keyframes = this.elementStore.elements.reduce((acc, element) => {
         let elementKeyframes = flattenedKeyframes.filter(
           (keyframe) => keyframe.step.animation.element.id === element.id
         );
@@ -54,9 +54,28 @@ export default {
           [element.id]: elementKeyframes,
         };
       }, {});
+
+      return keyframes;
     },
   },
   methods: {
+    addStepToAnimation(elementIndex, keyframeIndex) {
+      const keyframeNotEmpty =
+        this.keyframes[elementIndex][keyframeIndex].type !== EKeyframe.EMPTY;
+
+      if (keyframeNotEmpty) {
+        return;
+      }
+
+      const animation =
+        this.keyframes[elementIndex][keyframeIndex - 1].step.animation;
+      const animationIndex = this.animationStore.animations.indexOf(animation);
+      const newStepIndex =
+        this.animationStore.createAnimationStep(animationIndex);
+      this.elementStore.selectElement(elementIndex);
+      this.animationStore.selectAnimation(animationIndex);
+      this.animationStore.selectStep(newStepIndex);
+    },
     createElement() {
       this.animationStore.deselectAnimation();
       const elementIndex = this.elementStore.createElement();
@@ -222,6 +241,13 @@ export default {
             }"
             @click="selectStep(keyframe)"
           ></div>
+          <div
+            v-else-if="keyframes[element.id][keyframeIndex - 1]?.step"
+            class="timeline__keyframe timeline__keyframe--empty"
+            @click="addStepToAnimation(elementIndex, keyframeIndex)"
+          >
+            <PlusOutlined />
+          </div>
           <div
             v-else
             class="timeline__keyframe timeline__keyframe--empty"
