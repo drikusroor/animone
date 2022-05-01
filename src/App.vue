@@ -1,7 +1,15 @@
-<script setup lang="ts">
-import CanvasBoard from './components/CanvasBoard.vue'
-import ControlPanel from './components/ControlPanel.vue'
-import TimelinePanel from './components/TimelinePanel.vue'
+<script lang="ts">
+import CanvasBoard from "./components/CanvasBoard.vue";
+import ControlPanel from "./components/ControlPanel.vue";
+import TimelinePanel from "./components/TimelinePanel.vue";
+
+export default {
+  components: {
+    CanvasBoard,
+    ControlPanel,
+    TimelinePanel,
+  },
+};
 </script>
 
 <template>
@@ -16,7 +24,7 @@ import TimelinePanel from './components/TimelinePanel.vue'
 </template>
 
 <style>
-@import './assets/base.css';
+@import "./assets/base.css";
 
 #app {
   width: 100%;
@@ -66,7 +74,7 @@ a,
     bottom: 0;
     width: 360px;
     height: 100vh;
-    box-shadow: 5px 0px 15px 0px rgba(0, 0, 0, .1);
+    box-shadow: 5px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   header .wrapper {
@@ -74,7 +82,7 @@ a,
     place-items: flex-start;
     flex-wrap: wrap;
   }
-  
+
   main {
     width: calc(100% - 360px);
     margin-left: 360px;
