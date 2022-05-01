@@ -16,7 +16,7 @@ export const useKeyframeStore = defineStore({
       const { animations } = useAnimationStore();
       const { elements } = useElementStore();
       const animationsKeyframes: Keyframe[][] = animations.map((animation) =>
-        this.getAnimationKeyframes(animation)
+        getAnimationKeyframes(animation)
       );
       const flattenedKeyframes = animationsKeyframes.reduce((acc, curr) => {
         return [...acc, ...curr];
@@ -53,52 +53,47 @@ export const useKeyframeStore = defineStore({
       return keyframes;
     },
   },
-  actions: {
-    getAnimationKeyframes(animation: Animation) {
-      return animation.steps.reduce((keyframes, step): Keyframe[] => {
-        const currentKeyframesLength = keyframes.length;
-
-        const stepDelayKeyframes =
-          step.delay > 0
-            ? Array.from(Array(step.delay).keys()).map((i) => {
-                return new Keyframe(
-                  animation.keyframe + currentKeyframesLength + i,
-                  EKeyframe.STEP_DELAY,
-                  step,
-                  currentKeyframesLength + i + 1 - animation.keyframe,
-                  i
-                );
-              })
-            : [];
-
-        const stepKeyframe = new Keyframe(
-          animation.keyframe + currentKeyframesLength + step.delay,
-          EKeyframe.STEP,
-          step
-        );
-
-        const stepDurationKeyframes =
-          step.duration > 1
-            ? Array.from(Array(step.duration - 1).keys()).map((i) => {
-                return new Keyframe(
-                  animation.keyframe +
-                    currentKeyframesLength +
-                    1 +
-                    i +
-                    step.delay,
-                  EKeyframe.STEP_DURATION,
-                  step
-                );
-              })
-            : [];
-
-        return [
-          ...keyframes,
-          ...stepDelayKeyframes,
-          stepKeyframe,
-          ...stepDurationKeyframes,
-        ];
-      }, [] as Keyframe[]);
-    },
-  },
 });
+
+function getAnimationKeyframes(animation: Animation) {
+  return animation.steps.reduce((keyframes, step): Keyframe[] => {
+    const currentKeyframesLength = keyframes.length;
+
+    const stepDelayKeyframes =
+      step.delay > 0
+        ? Array.from(Array(step.delay).keys()).map((i) => {
+            return new Keyframe(
+              animation.keyframe + currentKeyframesLength + i,
+              EKeyframe.STEP_DELAY,
+              step,
+              currentKeyframesLength + i + 1 - animation.keyframe,
+              i
+            );
+          })
+        : [];
+
+    const stepKeyframe = new Keyframe(
+      animation.keyframe + currentKeyframesLength + step.delay,
+      EKeyframe.STEP,
+      step
+    );
+
+    const stepDurationKeyframes =
+      step.duration > 1
+        ? Array.from(Array(step.duration - 1).keys()).map((i) => {
+            return new Keyframe(
+              animation.keyframe + currentKeyframesLength + 1 + i + step.delay,
+              EKeyframe.STEP_DURATION,
+              step
+            );
+          })
+        : [];
+
+    return [
+      ...keyframes,
+      ...stepDelayKeyframes,
+      stepKeyframe,
+      ...stepDurationKeyframes,
+    ];
+  }, [] as Keyframe[]);
+}
