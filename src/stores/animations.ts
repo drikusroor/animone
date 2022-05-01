@@ -82,30 +82,6 @@ export const useAnimationStore = defineStore({
       this.selectedAnimationIndex = -1;
       this.selectedStepIndex = -1;
     },
-    updateAnimation(
-      animation: Animation,
-      groupIndex: number,
-      animationIndex: number
-    ) {
-      throw new Error("Not yet implemented");
-    },
-    updateAnimationStep(
-      animationStep: AnimationStep,
-      groupIndex: number,
-      animationIndex: number,
-      stepIndex: number
-    ) {
-      throw new Error("Not yet implemented");
-    },
-    updateAnimationEntry(
-      animationEntry: AnimationEntry,
-      groupIndex: number,
-      animationIndex: number,
-      stepIndex: number,
-      entryIndex: number
-    ) {
-      throw new Error("Not yet implemented");
-    },
     selectAnimation(index: number) {
       this.selectedAnimationIndex = index;
     },
