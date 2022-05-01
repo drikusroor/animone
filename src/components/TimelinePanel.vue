@@ -243,7 +243,7 @@ export default {
           ></div>
           <div
             v-else-if="keyframes[element.id][keyframeIndex - 1]?.step"
-            class="timeline__keyframe timeline__keyframe--empty"
+            class="timeline__keyframe timeline__keyframe--new-step"
             @click="addStepToAnimation(elementIndex, keyframeIndex)"
           >
             <PlusOutlined />
@@ -340,11 +340,12 @@ export default {
 .timeline__keyframe--step-delay {
   background: rgb(255, 110, 110);
 }
+.timeline__keyframe--new-step,
 .timeline__keyframe--empty {
   background: #eee;
   border-right: 1px solid #ddd;
 }
 .timeline__keyframe--empty:hover::before {
-  content: "➕";
+  content: "🎞️";
 }
 </style>
