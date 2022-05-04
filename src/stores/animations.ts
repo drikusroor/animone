@@ -1,5 +1,4 @@
 import { Animation } from "@/models/Animation";
-import type { AnimationEntry } from "@/models/AnimationEntry";
 import { AnimationStep } from "@/models/AnimationStep";
 import { defineStore } from "pinia";
 import type { AnimationElement } from "@/models/AnimationElement";
