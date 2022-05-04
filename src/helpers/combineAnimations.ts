@@ -1,29 +1,35 @@
 import type { Animation } from "@/models/Animation";
 
 export interface ICombineAnimationOptions {
-    keyframesPerSecond: number;
+  keyframesPerSecond: number;
 }
 
-export function combineAnimations(animations: Animation[], options: ICombineAnimationOptions) {
+export function combineAnimations(
+  animations: Animation[],
+  options: ICombineAnimationOptions
+) {
+  if (!options) {
+    throw new Error("Options are required");
+  }
 
-    if (!options) {
-        throw new Error("Options are required");
-    }
+  const declarations = animations
+    .map((animation) => {
+      // get name and keyframe from animation
+      const { name, keyframe, totalDuration } = animation;
 
-    const declarations = animations.map(animation => {
-        // get name and keyframe from animation
-        const { name, keyframe, totalDuration } = animation;
+      // string for css animation with name delay and duration
+      const animationString = `${name} ${
+        totalDuration / options.keyframesPerSecond
+      }s linear ${keyframe / options.keyframesPerSecond}s`;
 
-        // string for css animation with name delay and duration
-        const animationString = `${name} ${totalDuration / options.keyframesPerSecond}s linear ${keyframe / options.keyframesPerSecond}s`
+      return animationString;
+    })
+    .join(", ");
 
-        return animationString;
-    }).join(", ");
+  const css = animations.map((animation) => animation.keyframesCss).join("\n");
 
-    const css = animations.map(animation => animation.keyframesCss).join("\n");
-
-    return {
-        declarations,
-        css
-    };
+  return {
+    declarations,
+    css,
+  };
 }

@@ -4,7 +4,7 @@ export function camelize(s: string) {
 
 export function hyphenify(s: string) {
   // replace all non-alphanumeric characters with hyphens and lowercase
-  return s.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+  return s.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
 }
 
 export function stringifyStyle(style: { [key: string]: string }) {

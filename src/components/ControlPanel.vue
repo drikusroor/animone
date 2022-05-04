@@ -1,7 +1,7 @@
 <script lang="ts">
-import AnimationForm from './AnimationForm.vue';
-import ElementForm from './ElementForm.vue';
-import StepForm from './StepForm.vue';
+import AnimationForm from "./AnimationForm.vue";
+import ElementForm from "./ElementForm.vue";
+import StepForm from "./StepForm.vue";
 
 export default {
   components: {
@@ -9,7 +9,7 @@ export default {
     ElementForm,
     StepForm,
   },
-}
+};
 </script>
 
 <template>

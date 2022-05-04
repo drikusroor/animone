@@ -1,1 +1,1 @@
-export type TAnimationType = 'transform' | 'color' | 'background-color';
+export type TAnimationType = "transform" | "color" | "background-color";

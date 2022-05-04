@@ -1,6 +1,9 @@
 import { AnimationElement } from "@/models/AnimationElement";
 import { describe, it, expect } from "vitest";
-import { combineAnimations, type ICombineAnimationOptions } from "@/helpers/combineAnimations";
+import {
+  combineAnimations,
+  type ICombineAnimationOptions,
+} from "@/helpers/combineAnimations";
 import { Animation } from "@/models/Animation";
 import { AnimationStep } from "@/models/AnimationStep";
 
@@ -49,9 +52,9 @@ describe("combineAnimations", () => {
 
     const emptyOptions: unknown = null;
 
-    expect(() => combineAnimations(animations, emptyOptions as ICombineAnimationOptions)).toThrowError(
-      "Options are required"
-    );
+    expect(() =>
+      combineAnimations(animations, emptyOptions as ICombineAnimationOptions)
+    ).toThrowError("Options are required");
   });
 });
 
