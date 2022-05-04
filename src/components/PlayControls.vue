@@ -3,6 +3,11 @@ import { PlayCircleOutlined } from "@ant-design/icons-vue";
 
 export default {
   components: { PlayCircleOutlined },
+  data() {
+    return {
+      size: "large",
+    };
+  },
 };
 </script>
 
