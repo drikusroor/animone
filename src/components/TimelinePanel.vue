@@ -9,6 +9,7 @@ import {
   PlusOutlined,
 } from "@ant-design/icons-vue";
 import { Keyframe, EKeyframe } from "../models/Keyframe";
+import PlayControls from "./PlayControls.vue";
 
 export default {
   components: {
@@ -16,6 +17,7 @@ export default {
     Button,
     FieldTimeOutlined,
     PlusOutlined,
+    PlayControls,
   },
   computed: {},
   methods: {
@@ -102,6 +104,7 @@ export default {
 
 <template>
   <div class="timeline">
+    <PlayControls />
     <div class="timeline__inner">
       <div
         class="timeline__element-row"
@@ -192,7 +195,8 @@ export default {
   min-height: 64px;
   position: fixed;
   background: white;
-  width: 100%;
+  width: calc(100% - 360px);
+  left: 360px;
   bottom: 0px;
   overflow: hidden;
   color: #000;
