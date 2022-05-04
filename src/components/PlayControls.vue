@@ -13,12 +13,12 @@ export default {
 
 <template>
   <div class="play-controls">
-    <a-button type="primary" shape="circle" :size="size">
+    <a-button type="primary" shape="circle" :size="size" disabled>
       <template #icon>
         <PlayCircleOutlined />
       </template>
     </a-button>
-    <a-button type="primary" shape="circle" :size="size">
+    <a-button type="primary" shape="circle" :size="size" disabled>
       <template #icon>
         <div class="play-controls__stop"></div>
       </template>
