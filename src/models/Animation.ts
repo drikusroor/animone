@@ -1,4 +1,4 @@
-import type { ICombineAnimationOptions } from "@/helpers/combineAnimations";
+import type { ICombineAnimationOptions } from "@/helpers/generateAnimationsCss";
 import { hyphenify } from "@/helpers/style";
 import type { AnimationElement, IAnimationElement } from "./AnimationElement";
 import type { AnimationStep } from "./AnimationStep";

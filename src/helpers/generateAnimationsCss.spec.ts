@@ -1,9 +1,9 @@
 import { AnimationElement } from "@/models/AnimationElement";
 import { describe, it, expect } from "vitest";
 import {
-  combineAnimations,
-  type ICombineAnimationOptions,
-} from "@/helpers/combineAnimations";
+  generateAnimationsCss,
+  type IGenerateAnimationsCssOptions,
+} from "@/helpers/generateAnimationsCss";
 import { Animation } from "@/models/Animation";
 import { AnimationStep } from "@/models/AnimationStep";
 
@@ -26,7 +26,7 @@ describe("combineAnimations", () => {
 
     const animations = [animationOne, animationTwo];
 
-    const combinedAnimations = combineAnimations(animations, {
+    const combinedAnimations = generateAnimationsCss(animations, {
       keyframesPerSecond: 1,
     });
 
@@ -34,7 +34,7 @@ describe("combineAnimations", () => {
       `animation-1 3s linear 0s, animation-2 3s linear 10s`
     );
 
-    const combinedAnimationsFaster = combineAnimations(animations, {
+    const combinedAnimationsFaster = generateAnimationsCss(animations, {
       keyframesPerSecond: 2,
     });
 
@@ -53,7 +53,7 @@ describe("combineAnimations", () => {
     const emptyOptions: unknown = null;
 
     expect(() =>
-      combineAnimations(animations, emptyOptions as ICombineAnimationOptions)
+      generateAnimationsCss(animations, emptyOptions as IGenerateAnimationsCssOptions)
     ).toThrowError("Options are required");
   });
 });
