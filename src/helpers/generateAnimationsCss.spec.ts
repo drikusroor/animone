@@ -26,21 +26,26 @@ describe("combineAnimations", () => {
 
     const animations = [animationOne, animationTwo];
 
-    const combinedAnimations = generateAnimationsCss(animations, {
+    const generatedCss = generateAnimationsCss(animations, {
       keyframesPerSecond: 1,
     });
 
-    expect(combinedAnimations.declarations).toBe(
-      `animation-1 3s linear 0s, animation-2 3s linear 10s`
+    expect(generatedCss).toBe(
+      `
+      @keyframes animation-1 {
+        0% { transform: translateX(0px); }
+50% { transform: translateX(0px); }
+100% { transform: translateX(0px); }
+      }
+
+      @keyframes animation-2 {
+        0% { transform: translateX(0px); }
+50% { transform: translateX(0px); }
+100% { transform: translateX(0px); }
+      }
+    `
     );
 
-    const combinedAnimationsFaster = generateAnimationsCss(animations, {
-      keyframesPerSecond: 2,
-    });
-
-    expect(combinedAnimationsFaster.declarations).toBe(
-      `animation-1 1.5s linear 0s, animation-2 1.5s linear 5s`
-    );
   });
 
   it("should throw error if options are not provided", () => {

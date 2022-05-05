@@ -48,10 +48,12 @@ export default {
           0
         );
 
+        const css = generateAnimationsCss(elementAnimations, {
+          keyframesPerSecond: this.framesPerSecond,
+        });
+
         return {
-          ...generateAnimationsCss(elementAnimations, {
-            keyframesPerSecond: this.framesPerSecond,
-          }),
+          css,
           totalElementAnimationsDuration,
           declarations,
         };
