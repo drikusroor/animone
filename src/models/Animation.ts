@@ -1,3 +1,4 @@
+import type { ICombineAnimationOptions } from "@/helpers/combineAnimations";
 import { hyphenify } from "@/helpers/style";
 import type { AnimationElement, IAnimationElement } from "./AnimationElement";
 import type { AnimationStep } from "./AnimationStep";
@@ -22,8 +23,8 @@ export class Animation {
           i === 0
             ? "0"
             : i === stepsLength - 1
-            ? "100"
-            : Math.round((100 * i) / (stepsLength - 1));
+              ? "100"
+              : Math.round((100 * i) / (stepsLength - 1));
 
         return `${percentage}% { ${step.styleString} } `;
       })
@@ -47,6 +48,12 @@ export class Animation {
     this.element = element;
     this.steps = steps;
     this.keyframe = keyframe;
+  }
+
+  public animationDeclaration(options: ICombineAnimationOptions): string {
+    return `${this.animationName} ${this.totalDuration / options.keyframesPerSecond
+      }s linear ${Math.round((this.keyframe / options.keyframesPerSecond) * 100) / 100
+      }s`;
   }
 }
 
