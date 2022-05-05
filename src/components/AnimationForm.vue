@@ -42,7 +42,7 @@ export default {
       <h3>Edit {{ selectedAnimation.name }}</h3>
 
       <a-input
-        v-model="selectedAnimation.name"
+        v-model:value="selectedAnimation.name"
         type="text"
         name="name"
         placeholder="Name"

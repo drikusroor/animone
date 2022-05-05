@@ -42,7 +42,7 @@ export default {
     <form v-if="!!selectedElement">
       <h3>Edit {{ selectedElement.name }}</h3>
       <a-input
-        v-model="selectedElement.name"
+        v-model:value="selectedElement.name"
         type="text"
         name="name"
         placeholder="Name"
