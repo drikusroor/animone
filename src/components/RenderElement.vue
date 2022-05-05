@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
+import { useKeyframeStore } from "../stores/keyframes";
 import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
@@ -33,7 +34,8 @@ export default {
       if (
         this.element.id ===
           this.animationStore.selectedStep?.animation.element.id &&
-        !this.isPlaying
+        !this.isPlaying &&
+        !this.keyframeStore.isPlaying
       ) {
         return {
           ...this.element.style,
@@ -88,7 +90,8 @@ export default {
   setup() {
     const animationStore = useAnimationStore();
     const elementStore = useElementStore();
-    return { animationStore, elementStore };
+    const keyframeStore = useKeyframeStore();
+    return { animationStore, elementStore, keyframeStore };
   },
 };
 </script>
