@@ -118,6 +118,7 @@ export default {
         shape="circle"
         :size="size"
         @click="playAnimation"
+        :disabled="isPlaying"
       >
         <template #icon>
           <PlayCircleOutlined />
@@ -128,6 +129,7 @@ export default {
         shape="circle"
         :size="size"
         @click="stopAnimation"
+        :disabled="!isPlaying"
       >
         <template #icon>
           <div class="play-controls__stop"></div>
@@ -137,6 +139,7 @@ export default {
         title="Frames per second"
         placeholder="Frames per second"
         v-model:value="framesPerSecond"
+        :disabled="isPlaying"
       >
       </a-input-number>
     </div>
