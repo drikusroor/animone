@@ -1,4 +1,4 @@
-import { hyphenify } from "@/helpers/style";
+import { kebabify } from "@/helpers/style";
 
 export class AnimationElement {
   id: number;
@@ -7,7 +7,7 @@ export class AnimationElement {
   styleString: string;
 
   public get className(): string {
-    return hyphenify(this.name);
+    return kebabify(this.name);
   }
 
   public constructor({ id, name, style, styleString }: IAnimationElement) {

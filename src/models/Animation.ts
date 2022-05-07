@@ -1,5 +1,5 @@
 import type { ICombineAnimationOptions } from "@/helpers/generateAnimationsCss";
-import { hyphenify } from "@/helpers/style";
+import { kebabify } from "@/helpers/style";
 import type { AnimationElement, IAnimationElement } from "./AnimationElement";
 import type { AnimationStep } from "./AnimationStep";
 
@@ -23,8 +23,8 @@ export class Animation {
           i === 0
             ? "0"
             : i === stepsLength - 1
-              ? "100"
-              : Math.round((100 * i) / (stepsLength - 1));
+            ? "100"
+            : Math.round((100 * i) / (stepsLength - 1));
 
         return `${percentage}% { ${step.styleString} } `;
       })
@@ -40,20 +40,36 @@ export class Animation {
   }
 
   public get animationName(): string {
-    return hyphenify(this.name);
+    return kebabify(this.name);
   }
 
   constructor({ name, element, steps, keyframe }: IAnimation) {
+    
+    if (!name) {
+      throw new Error("Name is required");
+    }
+
     this.name = name;
+
+    if (!element) {
+      throw new Error("Element is required");
+    }
+
     this.element = element;
     this.steps = steps;
+
+    if (keyframe === undefined) {
+      throw new Error("Keyframe is required");
+    }
     this.keyframe = keyframe;
   }
 
   public animationDeclaration(options: ICombineAnimationOptions): string {
-    return `${this.animationName} ${this.totalDuration / options.keyframesPerSecond
-      }s linear ${Math.round((this.keyframe / options.keyframesPerSecond) * 100) / 100
-      }s`;
+    return `${this.animationName} ${
+      this.totalDuration / options.keyframesPerSecond
+    }s linear ${
+      Math.round((this.keyframe / options.keyframesPerSecond) * 100) / 100
+    }s`;
   }
 }
 

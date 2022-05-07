@@ -2,9 +2,15 @@ export function camelize(s: string) {
   return s.replace(/-./g, (x) => x[1].toUpperCase());
 }
 
-export function hyphenify(s: string) {
-  // replace all non-alphanumeric characters with hyphens and lowercase
-  return s.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+// function that trims the string, 
+// replaces an uppercase character by a lowercase character and a hyphen,
+// and converts all spaces to a single hyphen
+export function kebabify(s: string) {
+  return s
+    .replace(/[A-Z]/g, (x) => ` ${x.toLowerCase()}`)
+    .trim()
+    .replace(/\s+/g, "-")
+    .toLowerCase();
 }
 
 export function stringifyStyle(style: { [key: string]: string }) {

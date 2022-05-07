@@ -1,5 +1,5 @@
 import { parseStyleString } from "@/helpers/style";
-import type { Animation } from "./Animation";
+import type { IAnimation } from "./Animation";
 import type { AnimationEntry } from "./AnimationEntry";
 
 export class AnimationStep {
@@ -8,7 +8,7 @@ export class AnimationStep {
   duration: number;
   easing: string;
   entries: AnimationEntry[];
-  animation: Animation;
+  animation: IAnimation;
   styleString = "";
 
   public get css(): { [key: string]: string } {
@@ -43,5 +43,5 @@ export interface IAnimationStep {
   duration: number;
   easing: string;
   entries: AnimationEntry[];
-  animation: Animation;
+  animation: IAnimation;
 }
