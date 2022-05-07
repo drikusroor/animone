@@ -7,7 +7,7 @@ import {
 import { Animation } from "@/models/Animation";
 import { AnimationStep } from "@/models/AnimationStep";
 
-describe("combineAnimations", () => {
+describe.skip("combineAnimations", () => {
   it("should combine animations", () => {
     const element = createMockElement(1);
     const animationOne = createMockAnimation("animation-1", 0, element);
