@@ -21,36 +21,33 @@ describe("Animation", () => {
     it("should throw error if name is not provided", () => {
       expect(
         () =>
-          // @ts-ignore
           new Animation({
             element: createMockElement(0),
             steps: [],
             keyframe: 0,
-          })
+          } as unknown as IAnimation)
       ).toThrowError("Name is required");
     });
 
     it("should throw error if element is not provided", () => {
       expect(
         () =>
-          // @ts-ignore
           new Animation({
             name: "test",
             steps: [],
             keyframe: 0,
-          })
+          } as unknown as IAnimation)
       ).toThrowError("Element is required");
     });
 
     it("should throw error if keyframe is not provided", () => {
       expect(
         () =>
-          // @ts-ignore
           new Animation({
             name: "test",
             element: createMockElement(0),
             steps: [],
-          })
+          } as unknown as IAnimation)
       ).toThrowError("Keyframe is required");
     });
   });
@@ -84,7 +81,6 @@ describe("Animation", () => {
 
   describe("get animationName", () => {
     it("should return animation name kebabified", () => {
-      
       const animation = new Animation({
         name: "testAnimationZork",
         element: createMockElement(0),
