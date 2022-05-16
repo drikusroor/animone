@@ -96,15 +96,45 @@ export default {
       this.width = width;
       this.height = height;
     },
+    updatePosition(left, top, styleString: string) {
+      const regexTop = /(.*(top).*[\n]?)/g;
+      const regexLeft = /(.*(left).*[\n]?)/g;
+
+      if (styleString.match(regexTop)) {
+        styleString = styleString.replace(regexTop, `top: ${top}px;\n`);
+      } else {
+        styleString += `\ntop: ${top}px;`;
+      }
+
+      if (styleString.match(regexLeft)) {
+        styleString = styleString.replace(regexLeft, `left: ${left}px;\n`);
+      } else {
+        styleString += `\nleft: ${left}px;`;
+      }
+
+      return styleString;
+    },
     onDragEnd({ left, top }) {
       if (this.animationStore.selectedStep) {
-        this.animationStore.selectedStep.styleString += `\nleft: ${left}px;\ntop: ${top}px;`;
+        const { styleString } = this.animationStore.selectedStep;
+        this.animationStore.selectedStep.styleString = this.updatePosition(
+          left,
+          top,
+          styleString
+        );
       } else if (this.animationStore.selectedAnimation) {
-        this.animationStore.selectedAnimation.styleString += `\nleft: ${left}px;\ntop: ${top}px;`;
+        this.animationStore.selectedAnimation.styleString = this.updatePosition(
+          left,
+          top,
+          this.animationStore.selectedAnimation.styleString
+        );
       } else {
-        this.elementStore.elements[
-          this.index
-        ].styleString += `\nleft: ${left}px;\ntop: ${top}px;`;
+        this.elementStore.elements[this.index].styleString =
+          this.updatePosition(
+            left,
+            top,
+            this.elementStore.elements[this.index].styleString
+          );
       }
     },
     onResizeMove(e, left, top, width, height) {
