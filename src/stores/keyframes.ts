@@ -59,41 +59,43 @@ function getAnimationKeyframes(animation: Animation) {
   return animation.steps.reduce((keyframes, step): Keyframe[] => {
     const currentKeyframesLength = keyframes.length;
 
-    const stepDelayKeyframes =
-      step.delay > 0
-        ? Array.from(Array(step.delay).keys()).map((i) => {
-            return new Keyframe(
-              animation.keyframe + currentKeyframesLength + i,
-              EKeyframe.STEP_DELAY,
-              step,
-              currentKeyframesLength + i + 1 - animation.keyframe,
-              i
-            );
-          })
-        : [];
-
     const stepKeyframe = new Keyframe(
-      animation.keyframe + currentKeyframesLength + step.delay,
+      animation.keyframe + currentKeyframesLength + step.duration,
       EKeyframe.STEP,
       step
     );
 
     const stepDurationKeyframes =
-      step.duration > 1
-        ? Array.from(Array(step.duration - 1).keys()).map((i) => {
-            return new Keyframe(
-              animation.keyframe + currentKeyframesLength + 1 + i + step.delay,
-              EKeyframe.STEP_DURATION,
-              step
-            );
-          })
+      step.duration > 0
+        ? Array.from(Array(step.duration).keys()).map((i) => {
+          return new Keyframe(
+            animation.keyframe + currentKeyframesLength + i,
+            EKeyframe.STEP_DURATION,
+            step,
+            currentKeyframesLength + i + 1 - animation.keyframe,
+            i
+          );
+        })
         : [];
 
-    return [
+    const stepTransitionKeyframes =
+      step.transition > 1
+        ? Array.from(Array(step.transition - 1).keys()).map((i) => {
+          return new Keyframe(
+            animation.keyframe + currentKeyframesLength + 1 + i + step.duration,
+            EKeyframe.STEP_TRANSITION,
+            step
+          );
+        })
+        : [];
+
+    const totalKeyframes = [
       ...keyframes,
-      ...stepDelayKeyframes,
       stepKeyframe,
       ...stepDurationKeyframes,
+      ...stepTransitionKeyframes,
     ];
+
+    return totalKeyframes;
   }, [] as Keyframe[]);
 }

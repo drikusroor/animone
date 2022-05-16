@@ -39,7 +39,7 @@ export class Animation {
 
         acc = [...acc, { percentage, step }];
 
-        if (i === array.length - 1 && step.duration > 1) {
+        if (i === array.length - 1 && step.duration >= 1) {
           return [...acc, { percentage: 100, step }];
         }
 

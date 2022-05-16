@@ -67,8 +67,8 @@ export const useAnimationStore = defineStore({
       animation.steps.push(
         new AnimationStep({
           name: "New step",
-          duration: 1,
-          delay: 0,
+          duration: 0,
+          transition: 1,
           easing: "linear",
           entries: [],
           animation,

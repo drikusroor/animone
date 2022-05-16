@@ -77,32 +77,11 @@ export default {
           :placeholder="'Enter styling, ex:\nbackground: blue;\nwidth: 300px;\nheight: 100px;'"
         />
         <a-row>
-          <a-col :span="20"> <label for="delay">Delay</label> </a-col>
-          <a-col :span="16">
-            <a-slider
-              v-model:value="selectedStep.delay"
-              :min="1"
-              :max="100"
-              :step="1"
-            />
-          </a-col>
-          <a-col :span="4">
-            <a-input-number
-              name="delay"
-              v-model:value="selectedStep.delay"
-              :min="0"
-              :max="24"
-              :step="1"
-              style="margin-left: 16px"
-            />
-          </a-col>
-        </a-row>
-        <a-row>
           <a-col :span="20"><label for="duration">Duration</label></a-col>
           <a-col :span="16">
             <a-slider
               v-model:value="selectedStep.duration"
-              :min="1"
+              :min="0"
               :max="24"
               :step="1"
             />
@@ -111,9 +90,38 @@ export default {
             <a-input-number
               name="duration"
               v-model:value="selectedStep.duration"
+              :min="0"
+              :max="100"
+              :step="1"
+              style="margin-left: 16px"
+            />
+          </a-col>
+        </a-row>
+        <a-row>
+          <a-col :span="20"> <label for="transition">Transition</label> </a-col>
+          <a-col :span="16">
+            <a-slider
+              v-model:value="selectedStep.transition"
               :min="1"
               :max="100"
               :step="1"
+              :disabled="
+                store.selectedAnimation.steps.length - 1 ===
+                store.selectedStepIndex
+              "
+            />
+          </a-col>
+          <a-col :span="4">
+            <a-input-number
+              name="transition"
+              v-model:value="selectedStep.transition"
+              :min="1"
+              :max="24"
+              :step="1"
+              :disabled="
+                store.selectedAnimation.steps.length - 1 ===
+                store.selectedStepIndex
+              "
               style="margin-left: 16px"
             />
           </a-col>
