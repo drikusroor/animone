@@ -18,6 +18,7 @@ export default {
   },
   data() {
     return {
+      isDragging: false,
       isPlaying: false,
       animationTimeout: null,
       dragSelector: ".drag-container",
@@ -35,19 +36,28 @@ export default {
       return this.elementStore.selectedElementIndex === this.index;
     },
     elementStyle() {
+      let elementStyle = {};
+
       if (
         this.element.id ===
           this.animationStore.selectedStep?.animation.element.id &&
         !this.isPlaying &&
         !this.keyframeStore.isPlaying
       ) {
-        return {
+        elementStyle = {
           ...this.element.style,
           ...this.animationStore.selectedStep.css,
         };
       } else {
-        return this.element.style;
+        elementStyle = this.element.style;
       }
+
+      if (this.isDragging) {
+        delete elementStyle.top;
+        delete elementStyle.left;
+      }
+
+      return elementStyle;
     },
   },
   methods: {
@@ -114,7 +124,11 @@ export default {
 
       return styleString;
     },
+    onDragStart() {
+      this.isDragging = true;
+    },
     onDragEnd({ left, top }) {
+      this.isDragging = false;
       if (this.animationStore.selectedStep) {
         const { styleString } = this.animationStore.selectedStep;
         this.animationStore.selectedStep.styleString = this.updatePosition(
@@ -158,6 +172,7 @@ export default {
     :id="`element${element.id}`"
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
+    @drag:start="onDragStart"
     @drag:end="onDragEnd"
     @resize:end="onResizeEnd"
     dragSelector=".drag-selector"
