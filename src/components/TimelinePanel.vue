@@ -19,6 +19,11 @@ export default {
     PlusOutlined,
     PlayControls,
   },
+  data() {
+    return {
+      EKeyframe,
+    };
+  },
   computed: {},
   methods: {
     addStepToAnimation(elementIndex, keyframeIndex) {
@@ -129,8 +134,8 @@ export default {
           :key="keyframeIndex"
         >
           <div
-            v-if="keyframe.type === 'STEP_DELAY'"
-            class="timeline__keyframe timeline__keyframe--step-delay"
+            v-if="keyframe.type === EKeyframe.STEP_TRANSITION"
+            class="timeline__keyframe timeline__keyframe--step-transition"
             :class="{
               'timeline__keyframe--selected':
                 keyframe.step === animationStore.selectedStep,
@@ -140,18 +145,16 @@ export default {
             <FieldTimeOutlined v-if="keyframe.relativeStepKeyframe === 0" />
           </div>
           <div
-            v-else-if="keyframe.type === 'STEP'"
+            v-else-if="keyframe.type === EKeyframe.STEP"
             class="timeline__keyframe timeline__keyframe--step"
             :class="{
               'timeline__keyframe--selected':
                 keyframe.step === animationStore.selectedStep,
             }"
             @click="selectStep(keyframe)"
-          >
-            <BorderOutlined />
-          </div>
+          ></div>
           <div
-            v-else-if="keyframe.type === 'STEP_DURATION'"
+            v-else-if="keyframe.type === EKeyframe.STEP_DURATION"
             class="timeline__keyframe timeline__keyframe--step-duration"
             :class="{
               'timeline__keyframe--selected':
@@ -254,13 +257,13 @@ export default {
   background: white;
 }
 .timeline__keyframe--step {
-  background: aquamarine;
+  background: yellowgreen;
 }
 .timeline__keyframe--step-duration {
-  background: aquamarine;
-}
-.timeline__keyframe--step-delay {
   background: rgb(255, 110, 110);
+}
+.timeline__keyframe--step-transition {
+  background: aquamarine;
 }
 .timeline__keyframe--new-step,
 .timeline__keyframe--empty {

@@ -14,20 +14,38 @@ export class Animation {
     return this.steps.reduce((acc, step) => acc + step.totalDuration, 0);
   }
 
+  /** Get duration of preceding steps in duration */
+  public precedingStepsDuration(index: number): number {
+    if (index === 0) {
+      return 0;
+    }
+
+    return this.steps
+      .slice(0, index)
+      .reduce((acc, step) => acc + step.totalDuration, 0);
+  }
+
   public get keyframesCss(): string {
-    const stepsLength = this.steps.length;
-
     const stepsCss = this.steps
-      .map((step, i) => {
-        const percentage =
-          i === 0
-            ? "0"
-            : i === stepsLength - 1
-            ? "100"
-            : Math.round((100 * i) / (stepsLength - 1));
+      .reduce((acc, step, i, array) => {
+        const precedingStepsDuration = this.precedingStepsDuration(i);
 
-        return `${percentage}% { ${step.styleString} } `;
-      })
+        const percentage =
+          precedingStepsDuration !== 0
+            ? Math.round(
+              (100 * precedingStepsDuration) / (this.totalDuration - 1)
+            )
+            : 0;
+
+        acc = [...acc, { percentage, step }];
+
+        if (i === array.length - 1 && step.duration >= 1) {
+          return [...acc, { percentage: 100, step }];
+        }
+
+        return acc;
+      }, [] as { percentage: number; step: AnimationStep }[])
+      .map(({ percentage, step }) => `${percentage}% { ${step.styleString} } `)
       .join("\n");
 
     const keyframes = `
@@ -44,7 +62,7 @@ export class Animation {
   }
 
   constructor({ name, element, steps, keyframe }: IAnimation) {
-    
+
     if (!name) {
       throw new Error("Name is required");
     }
@@ -65,11 +83,9 @@ export class Animation {
   }
 
   public animationDeclaration(options: ICombineAnimationOptions): string {
-    return `${this.animationName} ${
-      this.totalDuration / options.keyframesPerSecond
-    }s linear ${
-      Math.round((this.keyframe / options.keyframesPerSecond) * 100) / 100
-    }s`;
+    return `${this.animationName} ${this.totalDuration / options.keyframesPerSecond
+      }s linear ${Math.round((this.keyframe / options.keyframesPerSecond) * 100) / 100
+      }s`;
   }
 }
 

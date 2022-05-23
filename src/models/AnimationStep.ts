@@ -4,7 +4,7 @@ import type { AnimationEntry } from "./AnimationEntry";
 
 export class AnimationStep {
   name: string;
-  delay: number;
+  transition: number;
   duration: number;
   easing: string;
   entries: AnimationEntry[];
@@ -17,19 +17,19 @@ export class AnimationStep {
 
   /** Get duration in keyframes */
   public get totalDuration(): number {
-    return this.delay + this.duration;
+    return this.duration + this.transition;
   }
 
   public constructor({
     name,
-    delay,
+    transition,
     duration,
     easing,
     entries,
     animation,
   }: IAnimationStep) {
     this.name = name;
-    this.delay = delay;
+    this.transition = transition;
     this.duration = duration;
     this.easing = easing;
     this.entries = entries;
@@ -39,7 +39,7 @@ export class AnimationStep {
 
 export interface IAnimationStep {
   name: string;
-  delay: number;
+  transition: number;
   duration: number;
   easing: string;
   entries: AnimationEntry[];

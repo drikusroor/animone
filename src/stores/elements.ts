@@ -25,7 +25,6 @@ export const useElementStore = defineStore({
         background: "deepskyblue",
         width: "128px",
         height: "128px",
-        padding: "0.5em",
       };
       const styleString = stringifyStyle(style);
       this.elements = [

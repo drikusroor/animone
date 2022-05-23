@@ -40,6 +40,6 @@ export class Keyframe {
 export enum EKeyframe {
   EMPTY = "EMPTY",
   STEP = "STEP",
-  STEP_DELAY = "STEP_DELAY",
   STEP_DURATION = "STEP_DURATION",
+  STEP_TRANSITION = "STEP_TRANSITION",
 }

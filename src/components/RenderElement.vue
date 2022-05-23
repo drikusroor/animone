@@ -6,17 +6,21 @@ import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
 
+import VueResizable from "vue-resizable";
+
 export default {
   props: ["element", "index"],
   components: {
     Button,
     PlayCircleOutlined,
     StopOutlined,
+    VueResizable,
   },
   data() {
     return {
       isPlaying: false,
       animationTimeout: null,
+      dragSelector: ".drag-container",
     };
   },
   computed: {
@@ -86,6 +90,56 @@ export default {
       }
       this.elementStore.selectElement(this.index);
     },
+    onResize: function (x, y, width, height) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+    },
+    updatePosition(left, top, styleString: string) {
+      const regexTop = /(.*(top).*[\n]?)/g;
+      const regexLeft = /(.*(left).*[\n]?)/g;
+
+      if (styleString.match(regexTop)) {
+        styleString = styleString.replace(regexTop, `top: ${top}px;\n`);
+      } else {
+        styleString += `\ntop: ${top}px;`;
+      }
+
+      if (styleString.match(regexLeft)) {
+        styleString = styleString.replace(regexLeft, `left: ${left}px;\n`);
+      } else {
+        styleString += `\nleft: ${left}px;`;
+      }
+
+      return styleString;
+    },
+    onDragEnd({ left, top }) {
+      if (this.animationStore.selectedStep) {
+        const { styleString } = this.animationStore.selectedStep;
+        this.animationStore.selectedStep.styleString = this.updatePosition(
+          left,
+          top,
+          styleString
+        );
+      } else if (this.animationStore.selectedAnimation) {
+        this.animationStore.selectedAnimation.styleString = this.updatePosition(
+          left,
+          top,
+          this.animationStore.selectedAnimation.styleString
+        );
+      } else {
+        this.elementStore.elements[this.index].styleString =
+          this.updatePosition(
+            left,
+            top,
+            this.elementStore.elements[this.index].styleString
+          );
+      }
+    },
+    onResizeMove(e, left, top, width, height) {
+      console.log(e, left, top, width, height);
+    },
   },
   setup() {
     const animationStore = useAnimationStore();
@@ -97,12 +151,17 @@ export default {
 </script>
 
 <template>
-  <div
+  <vue-resizable
     @click="selectElement()"
     class="element"
     ref="element"
+    :id="`element${element.id}`"
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
+    @drag:end="onDragEnd"
+    @resize:end="onResizeEnd"
+    dragSelector=".drag-selector"
+    :fitContent="true"
   >
     <Button @click="playAnimation" :disabled="isPlaying">
       <PlayCircleOutlined />
@@ -110,7 +169,11 @@ export default {
     <Button @click="stopAnimation" :disabled="!isPlaying">
       <StopOutlined />
     </Button>
-  </div>
+
+    <div class="resizable-content">
+      <div class="drag-selector"></div>
+    </div>
+  </vue-resizable>
 </template>
 
 <style scoped>
@@ -120,6 +183,7 @@ export default {
   cursor: pointer;
   transition: filter 0.15s ease-in-out;
   background: #ccc;
+  position: relative;
 }
 .element--selected {
   border: 2px dashed #000;
@@ -136,5 +200,20 @@ export default {
   border-radius: 5px;
   bottom: 0.25em;
   margin: 0 auto;
+}
+.resizable-content {
+  top: 0;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.drag-selector {
+  width: 80%;
+  height: 80%;
+  cursor: pointer;
+}
+.drag-selector:hover {
+  background-color: rgba(255, 255, 255, 0.25);
 }
 </style>
