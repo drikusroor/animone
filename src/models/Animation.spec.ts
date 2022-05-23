@@ -113,14 +113,14 @@ function createMockElement(id: number) {
 
 function createMockAnimationStep(
   animation: IAnimation,
+  transition: number,
   duration: number,
-  delay: number,
   name: string = "test"
 ) {
   return new AnimationStep({
     name,
+    transition,
     duration,
-    delay,
     easing: "linear",
     entries: [],
     animation,
