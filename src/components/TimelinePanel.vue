@@ -3,17 +3,12 @@ import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
 import { useKeyframeStore } from "../stores/keyframes";
 import { Button } from "ant-design-vue";
-import {
-  FieldTimeOutlined,
-  BorderOutlined,
-  PlusOutlined,
-} from "@ant-design/icons-vue";
+import { FieldTimeOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { Keyframe, EKeyframe } from "../models/Keyframe";
 import PlayControls from "./PlayControls.vue";
 
 export default {
   components: {
-    BorderOutlined,
     Button,
     FieldTimeOutlined,
     PlusOutlined,
