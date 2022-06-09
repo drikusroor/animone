@@ -6,15 +6,12 @@ import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
 
-import VueResizable from "vue-resizable";
-
 export default {
   props: ["element", "index"],
   components: {
     Button,
     PlayCircleOutlined,
     StopOutlined,
-    VueResizable,
   },
   data() {
     return {
@@ -22,6 +19,8 @@ export default {
       isPlaying: false,
       animationTimeout: null,
       dragSelector: ".drag-container",
+      dragPositionStart: { x: 0, y: 0 },
+      dragPositionMove: { x: 0, y: 0 },
     };
   },
   computed: {
@@ -50,11 +49,6 @@ export default {
         };
       } else {
         elementStyle = this.element.style;
-      }
-
-      if (this.isDragging) {
-        delete elementStyle.top;
-        delete elementStyle.left;
       }
 
       return elementStyle;
@@ -124,11 +118,29 @@ export default {
 
       return styleString;
     },
-    onDragStart() {
+    onDragStart(event) {
+      const { x, y } = event;
+      this.dragPositionStart = { x, y };
       this.isDragging = true;
     },
-    onDragEnd({ left, top }) {
-      this.isDragging = false;
+    onDragMove(event) {
+      if (!this.isDragging) {
+        return;
+      }
+      const { x, y } = event;
+      this.dragPositionMove = { x, y };
+
+      const leftMovement = this.dragPositionMove.x - this.dragPositionStart.x;
+      const topMovement = this.dragPositionMove.y - this.dragPositionStart.y;
+
+      const styleString = this.elementStyle;
+
+      const leftCurrent = parseInt(styleString.left ?? 0);
+      const topCurrent = parseInt(styleString.top ?? 0);
+
+      const left = leftCurrent + leftMovement;
+      const top = topCurrent + topMovement;
+
       if (this.animationStore.selectedStep) {
         const { styleString } = this.animationStore.selectedStep;
         this.animationStore.selectedStep.styleString = this.updatePosition(
@@ -150,9 +162,11 @@ export default {
             this.elementStore.elements[this.index].styleString
           );
       }
+
+      this.dragPositionStart = { x, y };
     },
-    onResizeMove(e, left, top, width, height) {
-      console.log(e, left, top, width, height);
+    onDragEnd() {
+      this.isDragging = false;
     },
   },
   setup() {
@@ -165,16 +179,16 @@ export default {
 </script>
 
 <template>
-  <vue-resizable
+  <div
     @click="selectElement()"
     class="element"
     ref="element"
     :id="`element${element.id}`"
     :class="{ 'element--selected': selected, [element.className]: true }"
     :style="elementStyle"
-    @drag:start="onDragStart"
-    @drag:end="onDragEnd"
-    @resize:end="onResizeEnd"
+    @mousedown="onDragStart"
+    @mousemove="onDragMove"
+    @mouseup="onDragEnd"
     dragSelector=".drag-selector"
     :fitContent="true"
   >
@@ -188,7 +202,7 @@ export default {
     <div class="resizable-content">
       <div class="drag-selector"></div>
     </div>
-  </vue-resizable>
+  </div>
 </template>
 
 <style scoped>

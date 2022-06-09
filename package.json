@@ -12,8 +12,7 @@
   "dependencies": {
     "ant-design-vue": "^3.2.2",
     "pinia": "^2.0.13",
-    "vue": "^3.2.33",
-    "vue-resizable": "^2.1.5"
+    "vue": "^3.2.33"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
