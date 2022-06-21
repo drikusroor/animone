@@ -1,4 +1,4 @@
-import { parseStyleString, stringifyStyle } from "@/helpers/style";
+import { stringifyStyle } from "@/helpers/style";
 import { AnimationElement } from "@/models/AnimationElement";
 import { defineStore } from "pinia";
 import {
@@ -43,7 +43,7 @@ export const useElementStore = defineStore({
       const styleString = stringifyStyle(style);
       this.elements = [
         ...this.elements,
-        new AnimationElement({ id, name, style, styleString }),
+        new AnimationElement({ id, name, styleString }),
       ];
       return this.elements.length - 1;
     },

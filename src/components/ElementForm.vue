@@ -53,6 +53,12 @@ export default {
         placeholder="Enter styling \n backgroundColor: blue';\nwidth: 300px;\nheight: 100px;"
         @input="(e) => onChangeStyle(selectedElement.styleString)"
       />
+      <a-input
+        v-model:value="selectedElement.image"
+        type="text"
+        name="image"
+        placeholder="Insert image url"
+      />
     </form>
     <hr />
     <h2>Elements</h2>

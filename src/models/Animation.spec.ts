@@ -106,7 +106,6 @@ function createMockElement(id: number) {
     id,
     className: `element-${id}`,
     name: `element-${id}`,
-    style: {},
     styleString: "",
   });
 }

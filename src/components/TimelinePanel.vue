@@ -118,9 +118,13 @@ export default {
             'timeline__element-name--selected':
               elementIndex === elementStore.selectedElementIndex,
           }"
-          :style="{ background: element.style.background }"
+          :style="{
+            background: element.css.background,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }"
         >
-          {{ element.name }}
+          <span>{{ element.name }}</span>
         </div>
         <template
           v-for="(keyframe, keyframeIndex) in keyframeStore.keyframes[
@@ -174,7 +178,7 @@ export default {
         </template>
       </div>
       <div class="timeline__element-row">
-        <div class="timeline__element-name">
+        <div class="timeline__buttons">
           <Button
             @click="createElement()"
             class="timeline__element-name--create"
@@ -217,12 +221,28 @@ export default {
   cursor: pointer;
   transition: background 0.15s ease-in-out;
 }
+.timeline__element-name::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.timeline__element-name > span {
+  color: white;
+}
 .timeline__element-name:hover {
   background: #ccc;
 }
 .timeline__element-name--selected {
   background: #ccc;
   font-weight: bolder;
+  position: relative;
+}
+.timeline__buttons {
+  padding: 0.25em;
 }
 .timeline__keyframe {
   display: flex;
