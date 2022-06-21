@@ -65,6 +65,19 @@ export default {
       this.animationStore.selectStep(stepIndex);
     },
 
+    selectElement(index: number) {
+      this.animationStore.deselectAnimation();
+
+      if (
+        this.elementStore.elements[index]?.id ===
+        this.elementStore.selectedElement?.id
+      ) {
+        return;
+      }
+
+      this.elementStore.selectElement(index);
+    },
+
     selectStep(keyframe: Keyframe) {
       // get element id
       const { element, animation, step } = keyframe;
@@ -112,7 +125,7 @@ export default {
         :key="elementIndex"
       >
         <div
-          @click="elementStore.selectElement(elementIndex)"
+          @click="selectElement(elementIndex)"
           class="timeline__element-name"
           :class="{
             'timeline__element-name--selected':

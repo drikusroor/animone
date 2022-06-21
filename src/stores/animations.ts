@@ -91,6 +91,9 @@ export const useAnimationStore = defineStore({
     selectAnimation(index: number) {
       this.selectedAnimationIndex = index;
     },
+    deselectStep() {
+      this.selectedStepIndex = -1;
+    },
     selectStep(index: number) {
       this.selectedStepIndex = index;
     },
