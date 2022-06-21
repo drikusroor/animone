@@ -2,6 +2,7 @@ import { Animation } from "@/models/Animation";
 import { AnimationStep } from "@/models/AnimationStep";
 import { defineStore } from "pinia";
 import type { AnimationElement } from "@/models/AnimationElement";
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 
 export const useAnimationStore = defineStore({
   id: "animations",
@@ -42,8 +43,14 @@ export const useAnimationStore = defineStore({
         throw new Error("Keyframe already exists for this element!");
       }
 
+      const name = uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        length: 2,
+        separator: ' ',
+      });
+
       const animation = new Animation({
-        name: "New animation",
+        name,
         element,
         steps: [],
         keyframe,

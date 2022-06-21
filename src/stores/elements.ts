@@ -1,6 +1,12 @@
 import { parseStyleString, stringifyStyle } from "@/helpers/style";
 import { AnimationElement } from "@/models/AnimationElement";
 import { defineStore } from "pinia";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
 
 export const useElementStore = defineStore({
   id: "elements",
@@ -19,8 +25,14 @@ export const useElementStore = defineStore({
   actions: {
     createElement() {
       const id = this.counter;
+
       this.counter += 1;
-      const name = "New element";
+      const name = uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        length: 2,
+        separator: ' ',
+      });
+
       const style = {
         background: "deepskyblue",
         width: "128px",
