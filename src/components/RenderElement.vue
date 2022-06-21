@@ -5,9 +5,13 @@ import { useKeyframeStore } from "../stores/keyframes";
 import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
+import { AnimationElement } from "../models/AnimationElement";
 
 export default {
-  props: ["element", "index"],
+  props: {
+    element: AnimationElement,
+    index: Number,
+  },
   components: {
     Button,
     PlayCircleOutlined,
@@ -48,7 +52,7 @@ export default {
           ...this.animationStore.selectedStep.css,
         };
       } else {
-        elementStyle = this.elementStore.selectedElement.css;
+        elementStyle = this.element.css;
       }
 
       return elementStyle;
