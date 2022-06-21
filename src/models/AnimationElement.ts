@@ -1,10 +1,13 @@
-import { kebabify } from "@/helpers/style";
+import { kebabify, parseStyleString } from "@/helpers/style";
 
 export class AnimationElement {
   id: number;
   name: string;
-  style: { [key: string]: string };
   styleString: string;
+
+  public get css(): { [key: string]: string } {
+    return parseStyleString(this.styleString);
+  }
 
   public get className(): string {
     return kebabify(this.name);

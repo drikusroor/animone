@@ -37,6 +37,8 @@ export const useElementStore = defineStore({
         background: "deepskyblue",
         width: "128px",
         height: "128px",
+        left: "0px",
+        top: "0px",
       };
       const styleString = stringifyStyle(style);
       this.elements = [
@@ -46,7 +48,6 @@ export const useElementStore = defineStore({
       return this.elements.length - 1;
     },
     updateElement(element: AnimationElement, index: number) {
-      element.style = parseStyleString(element.styleString);
       this.elements[index] = element;
     },
     selectElement(index: number) {

@@ -44,11 +44,11 @@ export default {
         !this.keyframeStore.isPlaying
       ) {
         elementStyle = {
-          ...this.element.style,
+          ...this.elementStore.selectedElement.css,
           ...this.animationStore.selectedStep.css,
         };
       } else {
-        elementStyle = this.element.style;
+        elementStyle = this.elementStore.selectedElement.css;
       }
 
       return elementStyle;
@@ -155,12 +155,11 @@ export default {
           this.animationStore.selectedAnimation.styleString
         );
       } else {
-        this.elementStore.elements[this.index].styleString =
-          this.updatePosition(
-            left,
-            top,
-            this.elementStore.elements[this.index].styleString
-          );
+        this.elementStore.selectedElement.styleString = this.updatePosition(
+          left,
+          top,
+          this.elementStore.selectedElement.styleString
+        );
       }
 
       this.dragPositionStart = { x, y };
@@ -184,7 +183,11 @@ export default {
     class="element"
     ref="element"
     :id="`element${element.id}`"
-    :class="{ 'element--selected': selected, [element.className]: true }"
+    :class="{
+      element: true,
+      'element--selected': selected,
+      [element.className]: true,
+    }"
     :style="elementStyle"
     @mousedown="onDragStart"
     @mousemove="onDragMove"
