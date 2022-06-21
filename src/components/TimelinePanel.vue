@@ -236,8 +236,7 @@ export default {
 .timeline__element-name:hover {
   background: #ccc;
 }
-.timeline__element-name--selected {
-  background: #ccc;
+.timeline__element-name--selected > span {
   font-weight: bolder;
   position: relative;
 }

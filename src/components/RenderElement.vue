@@ -55,6 +55,10 @@ export default {
         elementStyle = this.element.css;
       }
 
+      if (this.selected) {
+        elementStyle.zIndex = 100;
+      }
+
       return elementStyle;
     },
   },
@@ -128,7 +132,7 @@ export default {
       this.isDragging = true;
     },
     onDragMove(event) {
-      if (!this.isDragging) {
+      if (!this.isDragging || !this.selected) {
         return;
       }
       const { x, y } = event;
