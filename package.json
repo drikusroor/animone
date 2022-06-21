@@ -12,6 +12,7 @@
   "dependencies": {
     "ant-design-vue": "^3.2.2",
     "pinia": "^2.0.13",
+    "unique-names-generator": "^4.7.1",
     "vue": "^3.2.33"
   },
   "devDependencies": {
