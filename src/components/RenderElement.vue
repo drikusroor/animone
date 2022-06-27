@@ -6,6 +6,9 @@ import { Button } from "ant-design-vue";
 import { PlayCircleOutlined, StopOutlined } from "@ant-design/icons-vue";
 import { Animation } from "../models/Animation";
 import { AnimationElement } from "../models/AnimationElement";
+import config from "../config/config";
+
+const { features } = config;
 
 export default {
   props: {
@@ -25,6 +28,7 @@ export default {
       dragSelector: ".drag-container",
       dragPositionStart: { x: 0, y: 0 },
       dragPositionMove: { x: 0, y: 0 },
+      features,
     };
   },
   computed: {
@@ -203,13 +207,14 @@ export default {
     dragSelector=".drag-selector"
     :fitContent="true"
   >
-    <Button @click="playAnimation" :disabled="isPlaying">
-      <PlayCircleOutlined />
-    </Button>
-    <Button @click="stopAnimation" :disabled="!isPlaying">
-      <StopOutlined />
-    </Button>
-
+    <div v-if="features.playStopButtonsEnabled">
+      <Button @click="playAnimation" :disabled="isPlaying">
+        <PlayCircleOutlined />
+      </Button>
+      <Button @click="stopAnimation" :disabled="!isPlaying">
+        <StopOutlined />
+      </Button>
+    </div>
     <div class="resizable-content">
       <div class="drag-selector"></div>
     </div>
