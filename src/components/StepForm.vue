@@ -47,13 +47,13 @@ export default {
 
 <template>
   <div class="step-form">
-    <h2>Steps</h2>
-    <hr />
+    <a-divider>
+      <h3>Steps</h3>
+    </a-divider>
     <Button @click="createStep">
       Add Step
       <template #icon><PlusOutlined /></template>
     </Button>
-    <h2>Steps</h2>
     <ul class="step-form__list">
       <li
         class="step-form__item"

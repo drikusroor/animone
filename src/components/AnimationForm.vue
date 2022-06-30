@@ -37,7 +37,9 @@ export default {
 
 <template>
   <div class="animation-form">
-    <h2>Animations</h2>
+    <a-divider>
+      <h3>Animations</h3>
+    </a-divider>
     <form v-if="!!selectedAnimation">
       <h3>Edit {{ selectedAnimation.name }}</h3>
 
@@ -48,8 +50,6 @@ export default {
         placeholder="Name"
       />
     </form>
-    <hr />
-    <h2>Animations</h2>
     <ul class="animation-form__list">
       <li
         class="animation-form__item"

@@ -38,7 +38,9 @@ export default {
 
 <template>
   <div class="element-form">
-    <h2>Elements</h2>
+    <a-divider>
+      <h3>Elements</h3>
+    </a-divider>
     <form v-if="!!selectedElement">
       <h3>Edit {{ selectedElement.name }}</h3>
       <a-input
@@ -60,8 +62,6 @@ export default {
         placeholder="Insert image url"
       />
     </form>
-    <hr />
-    <h2>Elements</h2>
     <ul class="element-form__list">
       <li
         class="element-form__item"
