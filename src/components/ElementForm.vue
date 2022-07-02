@@ -38,11 +38,12 @@ export default {
 
 <template>
   <div class="element-form">
-    <a-divider>
-      <h3>Elements</h3>
+    <a-divider class="heading">
+      <h3>
+        Element: <b>{{ selectedElement.name }}</b>
+      </h3>
     </a-divider>
     <form v-if="!!selectedElement">
-      <h3>Edit {{ selectedElement.name }}</h3>
       <a-input
         v-model:value="selectedElement.name"
         type="text"
@@ -62,25 +63,15 @@ export default {
         placeholder="Insert image url"
       />
     </form>
-    <ul class="element-form__list">
-      <li
-        class="element-form__item"
-        :class="{
-          'element-form__item--selected': index === store.selectedElementIndex,
-        }"
-        v-for="(element, index) in store.elements"
-        :key="element.name"
-        @click="store.selectElement(index)"
-      >
-        {{ element.name }}
-      </li>
-    </ul>
   </div>
 </template>
 
 <style scoped>
-.element-form {
-  padding: 0.5em;
+.element-form form {
+  padding: 0 12px;
+}
+.element-form > .heading {
+  margin-top: 0;
 }
 .element-form__list {
   list-style: none;

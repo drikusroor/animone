@@ -25,7 +25,6 @@ export const useElementStore = defineStore({
   actions: {
     createElement() {
       const id = this.counter;
-
       this.counter += 1;
       const name = uniqueNamesGenerator({
         dictionaries: [adjectives, colors, animals],
@@ -49,6 +48,9 @@ export const useElementStore = defineStore({
     },
     updateElement(element: AnimationElement, index: number) {
       this.elements[index] = element;
+    },
+    deselectElement() {
+      this.selectedElementIndex = -1;
     },
     selectElement(index: number) {
       this.selectedElementIndex = index;
