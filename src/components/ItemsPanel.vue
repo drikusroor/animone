@@ -83,10 +83,6 @@ export default defineComponent({
       if (!exists) {
         this.openPaths = [...this.openPaths, path];
       }
-
-      console.log(elementIndex, animationIndex, stepIndex, path);
-      console.log(this.openPaths);
-      console.log(this.selectedPaths);
     },
   },
   setup() {
