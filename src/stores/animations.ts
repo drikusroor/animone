@@ -46,7 +46,7 @@ export const useAnimationStore = defineStore({
       const name = uniqueNamesGenerator({
         dictionaries: [adjectives, colors, animals],
         length: 2,
-        separator: ' ',
+        separator: " ",
       });
 
       const animation = new Animation({

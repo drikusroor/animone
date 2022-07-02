@@ -207,15 +207,13 @@ export default {
 
 <style scoped>
 .timeline {
+  width: 100%;
   min-height: 64px;
-  position: fixed;
   background: white;
-  width: calc(100% - 360px);
-  left: 360px;
-  bottom: 0px;
   overflow: hidden;
   color: #000;
   box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.1);
+  align-self: flex-end;
 }
 .timeline__inner {
   overflow: auto;

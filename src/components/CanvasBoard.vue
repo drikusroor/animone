@@ -29,6 +29,5 @@ export default {
 <style scoped>
 .canvas {
   width: 100%;
-  height: calc(100vh - 64px);
 }
 </style>

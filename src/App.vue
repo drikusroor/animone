@@ -13,14 +13,16 @@ export default {
 </script>
 
 <template>
-  <header>
-    <ControlPanel />
-  </header>
+  <div class="app">
+    <header>
+      <ControlPanel />
+    </header>
 
-  <main>
-    <CanvasBoard />
-    <TimelinePanel />
-  </main>
+    <main>
+      <CanvasBoard />
+      <TimelinePanel />
+    </main>
+  </div>
 </template>
 
 <style>
@@ -39,7 +41,6 @@ header {
 }
 
 main {
-  width: 100%;
 }
 
 .logo {
@@ -61,31 +62,30 @@ a,
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
+  .app {
+    display: grid;
+    gap: 0;
     place-items: center;
+    grid-template-columns: auto 1fr;
+    gird-template-rows: 1fr;
   }
 
   header {
-    display: flex;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 360px;
     height: 100vh;
     box-shadow: 5px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
   }
 
   main {
-    width: calc(100% - 360px);
-    margin-left: 360px;
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    gap: 0;
+    place-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
   }
 
   .logo {
