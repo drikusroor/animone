@@ -9,8 +9,10 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
 } from "@ant-design/icons-vue";
+import type { IAnimation } from "@/models/Animation";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   components: {
     ExpandOutlined,
     PictureOutlined,
@@ -21,6 +23,8 @@ export default {
   data() {
     return {
       collapsed: false,
+      openPaths: [] as string[],
+      selectedPaths: [] as string[],
     };
   },
   computed: {
@@ -29,13 +33,61 @@ export default {
     },
   },
   methods: {
-    getElementAnimations(e) {
+    getElementAnimations(e): IAnimation[] {
       return this.animationStore.animations.filter(
         (a) => a.element?.id === e.id
       );
     },
+    getAnimationIndex(animation) {
+      return this.animationStore.animations.indexOf(animation);
+    },
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
+    },
+    updatePaths() {
+      const elementIndex = this.elementStore.selectedElementIndex;
+      const animationIndex = this.animationStore.selectedAnimationIndex;
+      const stepIndex = this.animationStore.selectedStepIndex;
+      let path = null;
+
+      if (elementIndex === -1) {
+        return;
+      } else if (animationIndex === -1) {
+        path = `${elementIndex}`;
+      } else if (stepIndex === -1) {
+        path = `${elementIndex}-${animationIndex}`;
+
+        const elementPath = `${elementIndex}`;
+        const elementPathExists = this.openPaths.includes(elementPath);
+        if (!elementPathExists) {
+          this.openPaths.push(elementPath);
+        }
+      } else {
+        path = `${elementIndex}-${animationIndex}-${stepIndex}`;
+
+        const elementPath = `${elementIndex}`;
+        const elementPathExists = this.openPaths.includes(elementPath);
+        if (!elementPathExists) {
+          this.openPaths.push(elementPath);
+        }
+
+        const animationPath = `${elementIndex}-${animationIndex}`;
+        const animationPathExists = this.openPaths.includes(animationPath);
+        if (!animationPathExists) {
+          this.openPaths.push(animationPath);
+        }
+      }
+
+      this.selectedPaths = [path];
+
+      const exists = this.openPaths.includes(path);
+      if (!exists) {
+        this.openPaths = [...this.openPaths, path];
+      }
+
+      console.log(elementIndex, animationIndex, stepIndex, path);
+      console.log(this.openPaths);
+      console.log(this.selectedPaths);
     },
   },
   setup() {
@@ -49,7 +101,23 @@ export default {
       keyframeStore,
     };
   },
-};
+  watch: {
+    collapsed(val) {
+      if (val) {
+        this.openPaths = [];
+      }
+    },
+    "elementStore.selectedElementIndex"() {
+      this.updatePaths();
+    },
+    "animationStore.selectedAnimationIndex"() {
+      this.updatePaths();
+    },
+    "animationStore.selectedStepIndex"() {
+      this.updatePaths();
+    },
+  },
+});
 </script>
 
 <template>
@@ -65,25 +133,25 @@ export default {
     </a-button>
 
     <a-menu
-      :default-selected-keys="['1']"
-      :default-open-keys="['2']"
       mode="inline"
       :inline-collapsed="collapsed"
+      v-model:open-keys="openPaths"
+      v-model:selected-keys="selectedPaths"
     >
-      <a-sub-menu :key="eIndex" v-for="(element, eIndex) in elements">
+      <a-sub-menu :key="`${element.id}`" v-for="element in elements">
         <template #icon>
           <PictureOutlined />
         </template>
-        <template #title>{{ element.name }}</template>
+        <template #title>{{ element.name }} </template>
         <a-sub-menu
-          v-for="(animation, animationIndex) in getElementAnimations(element)"
-          :key="`${elementIndex}-${animationIndex}`"
+          v-for="animation in getElementAnimations(element)"
+          :key="`${element.id}-${getAnimationIndex(animation)}`"
         >
           <template #icon> <VideoCameraOutlined /> </template>
-          <template #title>{{ animation.name }}</template>
+          <template #title>{{ animation.name }} </template>
           <a-menu-item
             v-for="(step, stepIndex) in animation.steps"
-            :key="stepIndex"
+            :key="`${element.id}-${getAnimationIndex(animation)}-${stepIndex}`"
           >
             <template #icon>
               <ExpandOutlined />

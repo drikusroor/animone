@@ -10,9 +10,9 @@ export class AnimationElement {
     const css = parseStyleString(this.styleString);
     if (this.image) {
       css.background = `url(${this.image})`;
-      css.backgroundPosition = 'center';
-      css.backgroundSize = 'cover';
-      css.overflow = 'visible';
+      css.backgroundPosition = "center";
+      css.backgroundSize = "cover";
+      css.overflow = "visible";
     }
 
     return css;

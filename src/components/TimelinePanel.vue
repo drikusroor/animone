@@ -6,8 +6,9 @@ import { Button } from "ant-design-vue";
 import { FieldTimeOutlined, PlusOutlined } from "@ant-design/icons-vue";
 import { Keyframe, EKeyframe } from "../models/Keyframe";
 import PlayControls from "./PlayControls.vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   components: {
     Button,
     FieldTimeOutlined,
@@ -21,7 +22,7 @@ export default {
   },
   computed: {},
   methods: {
-    addStepToAnimation(elementIndex, keyframeIndex) {
+    addStepToAnimation(elementIndex: number, keyframeIndex: number) {
       const { keyframes } = this.keyframeStore;
       const keyframeNotEmpty =
         keyframes[elementIndex][keyframeIndex].type !== EKeyframe.EMPTY;
@@ -112,7 +113,7 @@ export default {
       keyframeStore,
     };
   },
-};
+});
 </script>
 
 <template>
