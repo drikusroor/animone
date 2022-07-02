@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useAnimationStore } from "../stores/animations";
 import { useElementStore } from "../stores/elements";
-import { useKeyframeStore } from "../stores/keyframes";
 import {
   ExpandOutlined,
   PictureOutlined,
@@ -93,12 +92,10 @@ export default defineComponent({
   setup() {
     const elementStore = useElementStore();
     const animationStore = useAnimationStore();
-    const keyframeStore = useKeyframeStore();
 
     return {
       animationStore,
       elementStore,
-      keyframeStore,
     };
   },
   watch: {
