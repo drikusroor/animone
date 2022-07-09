@@ -114,12 +114,18 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="items-panel" :class="{ 'items-panel__collapsed': collapsed }">
+  <div
+    class="items-panel"
+    :class="{
+      'items-panel__collapsed': collapsed || elementStore.elements.length === 0,
+    }"
+  >
     <a-button
       class="items-panel__toggle-button"
       type="primary"
       @click="toggleCollapsed"
       style="margin-bottom: 16px"
+      disabled="elementStore.elements.length === 0"
     >
       <MenuUnfoldOutlined v-if="collapsed" />
       <MenuFoldOutlined v-else />
@@ -127,7 +133,7 @@ export default defineComponent({
 
     <a-menu
       mode="inline"
-      :inline-collapsed="collapsed"
+      :inline-collapsed="collapsed || elementStore.elements.length === 0"
       v-model:open-keys="openPaths"
       v-model:selected-keys="selectedPaths"
     >
